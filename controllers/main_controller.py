@@ -13,6 +13,7 @@ from base_controller import BaseHandler
 
 from models.event import Event
 from models.team import Team
+from helpers.useragent_helper import isDesktop
 
 def render_static(page):
     memcache_key = "main_%s" % page
@@ -108,7 +109,15 @@ class KickoffHandler(BaseHandler):
 
 class GamedayHandler(BaseHandler):
     def get(self):
-        memcache_key = "main_gameday"
+        desktop_override = self.request.get('desktop') == 'true'
+        uastring = self.request.headers['User-Agent']
+        is_desktop = isDesktop(uastring) or desktop_override
+        
+        if is_desktop:
+            memcache_key = 'main_gameday'
+        else:
+            memcache_key = 'main_gameday_mobile'
+        
         html = memcache.get(memcache_key)
         if html is None:
             next_events = Event.query(Event.start_date >= (datetime.datetime.today() - datetime.timedelta(days=4)))
@@ -136,7 +145,12 @@ class GamedayHandler(BaseHandler):
             template_values = {'ongoing_events': ongoing_events,
                                'ongoing_events_w_webcasts': ongoing_events_w_webcasts}
             
-            path = os.path.join(os.path.dirname(__file__), '../templates/gameday.html')
+            if is_desktop:
+                template_path = '../templates/gameday.html'
+            else:
+                template_path = '../templates/gameday_mobile.html'
+            
+            path = os.path.join(os.path.dirname(__file__), template_path)
             html = template.render(path, template_values)
             if tba_config.CONFIG["memcache"]: memcache.set(memcache_key, html, 86400)
         

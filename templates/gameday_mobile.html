@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}GameDay - The Blue Alliance{% endblock %}
+
+{% block meta_description %}Mobile live competition page for the FIRST Robotics Competition.{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row-fluid">
+    <div class="span12">
+      <h3>TBA Gameday Mobile</h3>
+      <h4>Event Webcasts:</h4>
+      {% for event in ongoing_events_w_webcasts %}
+        <p><a id='{{event.event.key_name}}-{% if event.count %}{{event.count}}{% else %}1{% endif %}'
+        event='{{event.event.key_name}}' num='{% if event.count %}{{event.count}}{% else %}1{% endif %}'
+        class='video_buttons' alt='{{event.event.name}} [{{event.event.event_short|upper}}]{% if event.count %} {{event.count}}{% endif %}'>
+        {{event.event.name}} [{{event.event.event_short|upper}}]{% if event.count %} {{event.count}}{% endif %}</a></p>
+      {% empty %}
+        <p>No webcasts are currently available.</p>
+      {% endfor %}
+      <h4>Ongoing Events:</h4>
+      {% for event in ongoing_events %}
+        <p><a class="event_results" href="/event/{{event.key_name}}">{{event.name}} [{{event.event_short|upper}}]</a></p>
+      {% empty %}
+        <p>No events are currently going on.</p>
+      {% endfor %}
+    </div>
+    <br>
+    <p><a href="/gameday?desktop=true">Desktop Version</a></p>
+  </div>
+</div>
+{% endblock %}
