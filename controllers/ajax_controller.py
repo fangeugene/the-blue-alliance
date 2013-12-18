@@ -44,10 +44,39 @@ class LivedashEventHandler(CacheableHandler):
             'name': event.name,
             'rankings': event.rankings,
             'matchstats': event.matchstats,
-            'match_keys': [match_key.id() for match_key in match_keys_future.get_result()]
+            'match_keys': [match_key.id() for match_key in match_keys_future.get_result()],
         }
 
         return json.dumps(event_dict)
+
+
+class LivedashMatchHandler(CacheableHandler):
+    """
+    """
+    def __init__(self, *args, **kw):
+        super(LivedashMatchHandler, self).__init__(*args, **kw)
+        self._cache_expiration = 60 * 60 * 24
+        self._cache_key = "livedash_match:{}"
+        self._cache_version = 1
+
+    def get(self, match_key):
+        self._cache_key = self._cache_key.format(match_key)
+        super(LivedashMatchHandler, self).get(match_key)
+
+    def _render(self, match_key):
+#         self.response.headers['Cache-Control'] = 'public, max-age=%d' % self._cache_expiration
+#         self.response.headers['Pragma'] = 'Public'
+        self.response.headers['content-type'] = 'application/json; charset="utf-8"'
+
+        match = Match.get_by_id(match_key)
+        match_dict = {
+            'alliances': match.alliances,
+            'comp_level': match.comp_level,
+            'match_number': match.match_number,
+            'set_number': match.set_number,
+        }
+
+        return json.dumps(match_dict)
 
 
 class TypeaheadHandler(CacheableHandler):
