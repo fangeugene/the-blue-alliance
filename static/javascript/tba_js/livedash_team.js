@@ -33,14 +33,6 @@ var LivedashPanel = React.createClass({
               <MatchTable match_keys={this.state.event.match_keys} />
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm-8">
-              <WebcastCell />
-            </div>
-            <div className="col-sm-4">
-              <MatchTable match_keys={this.state.event.match_keys} />
-            </div>
-          </div>
         </div>
       </div>
     );
