@@ -75,10 +75,26 @@ var MatchTable = React.createClass({
 });
 
 var MatchRow = React.createClass({
+  getInitialState: function() {
+    return {match: []};
+  },
+  updateMatchFromServer: function() {
+    $.ajax({
+      dataType: "json",
+      url: "/_/livedash/match/" + this.props.match_key,
+      success: function(match) {
+        this.setState({match: match});
+      }.bind(this)
+    });
+  },
+  componentWillMount: function() {
+    this.updateMatchFromServer();
+//    setInterval(this.updateEventFromServer, 1000);
+  },
   render: function() {
     return (
       <div>
-        {this.props.match_key}
+        {this.state.match}
       </div>
     );
   }
