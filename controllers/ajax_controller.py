@@ -8,11 +8,46 @@ from google.appengine.ext.webapp import template
 
 from base_controller import CacheableHandler
 
+from helpers.model_to_dict import ModelToDict
+
 from models.event import Event
+from models.match import Match
 from models.team import Team
 from models.sitevar import Sitevar
 from models.typeahead_entry import TypeaheadEntry
 import tba_config
+
+
+class LivedashEventHandler(CacheableHandler):
+    """
+    """
+    def __init__(self, *args, **kw):
+        super(LivedashEventHandler, self).__init__(*args, **kw)
+        self._cache_expiration = 60 * 60 * 24
+        self._cache_key = "livedash_event:{}"
+        self._cache_version = 1
+
+    def get(self, event_key):
+        self._cache_key = self._cache_key.format(event_key)
+        super(LivedashEventHandler, self).get(event_key)
+
+    def _render(self, event_key):
+#         self.response.headers['Cache-Control'] = 'public, max-age=%d' % self._cache_expiration
+#         self.response.headers['Pragma'] = 'Public'
+        self.response.headers['content-type'] = 'application/json; charset="utf-8"'
+
+        event_future = Event.get_by_id_async(event_key)
+        match_keys_future = Match.query(Match.event == ndb.Key(Event, event_key)).fetch_async(500, keys_only=True)
+
+        event = event_future.get_result()
+        event_dict = {
+            'name': event.name,
+            'rankings': event.rankings,
+            'matchstats': event.matchstats,
+            'match_keys': [match_key.id() for match_key in match_keys_future.get_result()]
+        }
+
+        return json.dumps(event_dict)
 
 
 class TypeaheadHandler(CacheableHandler):
