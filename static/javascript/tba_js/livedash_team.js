@@ -7,9 +7,9 @@ var LivedashPanel = React.createClass({
   updateEventFromServer: function() {
     $.ajax({
       dataType: "json",
-      url: "/api/v1/event/details?event=" + this.props.eventKeyName,
+      url: "/_/livedash/event/" + this.props.eventKeyName,
       success: function(event) {
-        event.url = "/event/" + event.key;
+        event.url = "/event/" + this.props.eventKeyName;
         this.setState({event: event});
       }.bind(this)
     });
@@ -30,7 +30,7 @@ var LivedashPanel = React.createClass({
               <WebcastCell />
             </div>
             <div className="col-sm-4">
-              <MatchTable matches={this.state.event.matches} />
+              <MatchTable match_keys={this.state.event.match_keys} />
             </div>
           </div>
           <div className="row">
@@ -38,7 +38,7 @@ var LivedashPanel = React.createClass({
               <WebcastCell />
             </div>
             <div className="col-sm-4">
-            <MatchTable matches={this.state.event.matches} />
+              <MatchTable match_keys={this.state.event.match_keys} />
             </div>
           </div>
         </div>
@@ -59,12 +59,12 @@ var WebcastCell = React.createClass({
 
 var MatchTable = React.createClass({
   render: function() {
-    var matches = [];
-    if (this.props.matches != null) {
-      matches = this.props.matches
+    var match_keys = [];
+    if (this.props.match_keys != null) {
+      match_keys = this.props.match_keys
     }
-    var matchRows = matches.map(function (match) {
-      return <MatchRow match={match} />;
+    var matchRows = match_keys.map(function (match_key) {
+      return <MatchRow match_key={match_key} />;
     });
     return (
       <div className="well">
@@ -78,7 +78,7 @@ var MatchRow = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.match}
+        {this.props.match_key}
       </div>
     );
   }
