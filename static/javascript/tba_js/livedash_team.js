@@ -72,7 +72,7 @@ function test() {
   var newProps = {};
   $.ajax({
     dataType: 'json',
-    url: '/_/livedash/event/2013testpresent',
+    url: '/_/livedash/2013testpresent',
     success: function(event) {
       a.setState({event: event});
       setTimeout(test, 1000);

@@ -5,7 +5,7 @@ import webapp2
 import tba_config
 
 from controllers.account_controller import AccountEdit, AccountLogout, AccountOverview, AccountRegister
-from controllers.ajax_controller import TypeaheadHandler, WebcastHandler, LivedashEventHandler, LivedashMatchHandler
+from controllers.ajax_controller import TypeaheadHandler, WebcastHandler, LivedashHandler
 from controllers.event_controller import EventList, EventDetail, EventRss
 from controllers.gameday2_controller import Gameday2Controller
 from controllers.insights_controller import InsightsOverview, InsightsDetail
@@ -61,8 +61,7 @@ app = webapp2.WSGIApplication([('/', landing_handler[tba_config.CONFIG['landing_
                                ('/thanks', ThanksHandler),
                                ('/webcasts', WebcastsHandler),
                                ('/record', RecordHandler),
-                               ('/_/livedash/event/(.*)', LivedashEventHandler),
-                               ('/_/livedash/match/(.*)', LivedashMatchHandler),
+                               ('/_/livedash/(.*)', LivedashHandler),
                                ('/_/typeahead/(.+)', TypeaheadHandler),
                                ('/_/webcast/(.*)/(.*)', WebcastHandler),
                                ('/.*', PageNotFoundHandler),
