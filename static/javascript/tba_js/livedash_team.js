@@ -36,7 +36,7 @@ var MatchTable = React.createClass({
       matches = this.props.matches
     }
     var matchRows = matches.map(function (match) {
-      return <MatchRow match={match} />;
+      return <MatchRow match={match.name} />;
     });
     return (
       <div className="well">
@@ -65,8 +65,9 @@ function test() {
   var newProps = {};
   $.ajax({
     dataType: 'json',
-    url: '/_/livedash/2013testpresent',
+    url: '/_/livedash/2013casj',
     success: function(event) {
+      event.matches.sort(function(match1, match2){return match1.order - match2.order});
       a.setState({event: event});
       setTimeout(test, 10000);
     }
