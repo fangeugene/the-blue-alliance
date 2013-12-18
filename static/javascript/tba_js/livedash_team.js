@@ -1,28 +1,15 @@
 /** @jsx React.DOM */
 
 var LivedashPanel = React.createClass({
-  getInitialState: function() {
-    return {event: []};
-  },
-  updateEventFromServer: function() {
-    $.ajax({
-      dataType: "json",
-      url: "/_/livedash/event/" + this.props.eventKeyName,
-      success: function(event) {
-        event.url = "/event/" + this.props.eventKeyName;
-        this.setState({event: event});
-      }.bind(this)
-    });
-  },
-  componentWillMount: function() {
-    this.updateEventFromServer();
-//    setInterval(this.updateEventFromServer, 1000);
-  },
   render: function() {
+    var matches = [];
+    if (this.state != null) {
+      matches = this.state.event.matches;
+    }
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          Currently competing at <a href={this.state.event.url}><strong>{this.state.event.name}</strong></a>
+          Currently competing at
         </div>
         <div className="panel-body">
           <div className="row">
@@ -30,7 +17,7 @@ var LivedashPanel = React.createClass({
               <WebcastCell />
             </div>
             <div className="col-sm-4">
-              <MatchTable matchKeys={this.state.event.match_keys} />
+              <MatchTable matches={matches} />
             </div>
           </div>
         </div>
@@ -51,12 +38,12 @@ var WebcastCell = React.createClass({
 
 var MatchTable = React.createClass({
   render: function() {
-    var matchKeys = [];
-    if (this.props.matchKeys != null) {
-      matchKeys = this.props.matchKeys
+    var matches = [];
+    if (this.props.matches != null) {
+      matches = this.props.matches
     }
-    var matchRows = matchKeys.map(function (matchKey) {
-      return <MatchRow matchKey={matchKey} />;
+    var matchRows = matches.map(function (match) {
+      return <MatchRow match={match} />;
     });
     return (
       <div className="well">
@@ -67,32 +54,32 @@ var MatchTable = React.createClass({
 });
 
 var MatchRow = React.createClass({
-  getInitialState: function() {
-    return {match: []};
-  },
-  updateMatchFromServer: function() {
-    $.ajax({
-      dataType: "json",
-      url: "/_/livedash/match/" + this.props.matchKey,
-      success: function(match) {
-        this.setState({match: match});
-      }.bind(this)
-    });
-  },
-  componentWillMount: function() {
-    this.updateMatchFromServer();
-//    setInterval(this.updateEventFromServer, 1000);
-  },
   render: function() {
     return (
       <div>
-        {this.state.match}
+        {this.props.match}
       </div>
     );
   }
 });
 
-React.renderComponent(
-  <LivedashPanel eventKeyName={document.getElementById('team-live-dash').getAttribute('data-event-key-name')}/>,
+var a = React.renderComponent(
+  <LivedashPanel />,
   document.getElementById('team-live-dash')
 );
+
+function test() {
+  var newProps = {};
+  $.ajax({
+    dataType: 'json',
+    url: '/_/livedash/event/2013testpresent',
+    success: function(event) {
+      a.setState({event: event});
+      setTimeout(test, 1000);
+    }
+  });
+}
+
+$( document ).ready(function() {
+  test();
+});

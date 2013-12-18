@@ -36,15 +36,21 @@ class LivedashEventHandler(CacheableHandler):
 #         self.response.headers['Pragma'] = 'Public'
         self.response.headers['content-type'] = 'application/json; charset="utf-8"'
 
-        event_future = Event.get_by_id_async(event_key)
-        match_keys_future = Match.query(Match.event == ndb.Key(Event, event_key)).fetch_async(500, keys_only=True)
+        event = Event.get_by_id(event_key)
 
-        event = event_future.get_result()
+        matches = []
+        for match in event.matches:
+            matches.append({
+                'alliances': match.alliances,
+                'comp_level': match.comp_level,
+                'match_number': match.match_number,
+                'set_number': match.set_number,
+            })
+
         event_dict = {
-            'name': event.name,
             'rankings': event.rankings,
             'matchstats': event.matchstats,
-            'match_keys': [match_key.id() for match_key in match_keys_future.get_result()],
+            'matches': matches,
         }
 
         return json.dumps(event_dict)
