@@ -8,7 +8,15 @@
 <script src="/javascript/react-with-addons.js"></script>
 <script src="/javascript/JSXTransformer.js"></script>
 <script type="text/jsx" src="/javascript/tba_js/livedash_team.js"></script>
-<div id="team-live-dash" class="row" data-event-key-name="{{current_event.key.id|safe}}"></div>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Currently competing at <a href="/event/{{current_event.key.id}}"><strong>{{current_event.name}}</strong></a>
+    </div>
+    <div id="team-live-dash" class="panel-body" data-event-key-name="{{current_event.key.id|safe}}", data-team-key-name="team.key.id|safe">
+    </div>
+  </div>
+</div>
 {% endif %}
 
 <div class="row">

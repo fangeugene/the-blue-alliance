@@ -7,19 +7,12 @@ var LivedashPanel = React.createClass({
       matches = this.state.event.matches;
     }
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          Currently competing at
+      <div className="row">
+        <div className="col-sm-8">
+          <WebcastCell />
         </div>
-        <div className="panel-body">
-          <div className="row">
-            <div className="col-sm-8">
-              <WebcastCell />
-            </div>
-            <div className="col-sm-4">
-              <MatchTable matches={matches} />
-            </div>
-          </div>
+        <div className="col-sm-4">
+          <MatchTable matches={matches} />
         </div>
       </div>
     );
@@ -75,7 +68,7 @@ function test() {
     url: '/_/livedash/2013testpresent',
     success: function(event) {
       a.setState({event: event});
-      setTimeout(test, 1000);
+      setTimeout(test, 10000);
     }
   });
 }
