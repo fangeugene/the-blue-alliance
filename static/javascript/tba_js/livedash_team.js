@@ -8,12 +8,39 @@ var LivedashPanel = React.createClass({
       matches = this.state.event.matches;
     }
     return (
-      <div className="row">
-        <div className="col-sm-8">
-          <WebcastCell />
+      <div>
+        <div className="row">
+          <div className="col-sm-8">
+            <WebcastCell />
+          </div>
+          <div className="col-sm-4">
+            <MatchList matches={matches} />
+          </div>
         </div>
-        <div className="col-sm-4">
-          <MatchList matches={matches} />
+        <div className="row">
+          <div className="col-sm-8">
+            <div className="row">
+              <div className="col-sm-4">
+                <div className="well">1</div>
+              </div>
+              <div className="col-sm-4">
+                <div className="well">1</div>
+              </div>
+              <div className="col-sm-4">
+                <div className="well">1</div>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="well">Rank</div>
+              </div>
+              <div className="col-sm-6">
+                <div className="well">W-L-T</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
