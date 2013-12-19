@@ -1,0 +1,51 @@
+/* temp to make livedash development easier */
+#test {
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+}
+
+.match {
+  height: 40px;
+  width: 100%;
+  border-bottom: 1px #ffffff solid;
+  display: block;
+}
+
+.match-number {
+  color: #000;
+  font-size: 18px;
+  width: 60px;
+  height: 100%;
+  display: inline-block;
+  line-height: 40px;
+  margin: 0 10px 0 10px;
+  float: left;
+}
+
+.alliances {
+  display: inline-block;
+  height: 100%;
+  width: auto;
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+.red {
+  color: #FF0000;
+  display: inline-block;
+  line-height: 20px;
+}
+
+.blue {
+  color: #0066FF;
+  display: inline-block;
+  line-height: 20px;
+}
+
+.red, .blue {
+  font-size: 13px;
+  width: auto;
+  height: 50%;
+  display: block;
+}

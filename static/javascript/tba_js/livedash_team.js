@@ -34,73 +34,37 @@ var MatchTable = React.createClass({
   render: function() {
     var matchRows = [];
     if (this.props.matches != null) {
-      for (var i=0; i < this.props.matches.length; i++) {
-        match = this.props.matches[i];
-        matchRows.push(<MatchRowTop match={match} />);
-        matchRows.push(<MatchRowBottom match={match} />);
-      }
+      var matchRows = this.props.matches.map(function(match) {
+        return <MatchRow match={match} />;
+      });
     }
     return (
-      <div id="test">
-        <table className="match-table">
-          <thead>
-            <tr className="key">
-              <th rowSpan="2"><span className="glyphicon glyphicon-film"></span></th>
-              <th rowSpan="2">Match</th>
-              <th colSpan="3">Red Alliance</th>
-              <th>Red Score</th>
-            </tr>
-            <tr className="key">
-              <th colSpan="3">Blue Alliance</th>
-              <th>Blue Score</th>
-            </tr>
-          </thead>
-        </table>
-        <div id="live-match-table-container">        
-          <table id="test" className="match-table">
-            <tbody>
-              {matchRows}
-            </tbody>
-          </table>
-        </div>
+      <div id="test" className="well">
+        {matchRows}
       </div>
     );
   }
 });
 
-var MatchRowTop = React.createClass({
+var MatchRow = React.createClass({
   render: function() {
     var name = this.props.match.name;
-    var teams = this.props.match.alliances.red.teams.map(function (team) {
+    var redTeams = this.props.match.alliances.red.teams.map(function (team) {
       return team.substring(3);
     });
-    var score = this.props.match.alliances.red.score;
-    return (
-      <tr>
-        <td rowSpan="2"><span className="glyphicon glyphicon-film"></span></td>
-        <td rowSpan="2"><a href="/match/">{name}</a></td>
-        <td className="red"><a href="/team/">{teams[0]}</a></td>
-        <td className="red"><a href="/team/">{teams[1]}</a></td>
-        <td className="red"><a href="/team/">{teams[2]}</a></td>
-        <td className="redScore">{score}</td>
-      </tr>
-    );
-  }
-});
-
-var MatchRowBottom = React.createClass({
-  render: function() {
-    var teams = this.props.match.alliances.blue.teams.map(function (team) {
+    var blueTeams = this.props.match.alliances.blue.teams.map(function (team) {
       return team.substring(3);
     });
-    var score = this.props.match.alliances.blue.score;
+    var redScore = this.props.match.alliances.red.score;
+    var blueScore = this.props.match.alliances.blue.score;
     return (
-      <tr>
-        <td className="blue"><a href="/team/">{teams[0]}</a></td>
-        <td className="blue"><a href="/team/">{teams[1]}</a></td>
-        <td className="blue"><a href="/team/">{teams[2]}</a></td>
-        <td className="blueScore">{score}</td>
-      </tr>
+      <div className="match">
+        <div className="match-number">{name}</div>
+        <div className="alliances">
+          <div className="red">{redTeams[0]}, {redTeams[1]}, {redTeams[2]} - {redScore}</div>
+          <div className="blue">{blueTeams[0]}, {blueTeams[1]}, {blueTeams[2]} - {blueScore}</div>
+        </div>
+      </div>
     );
   }
 });
@@ -135,5 +99,5 @@ function fixLayout() {
   var width = $("#webcast-container").width();
   var height = width * 9 / 16;
   $("#webcast-container").height(height);
-//  $("#live-match-table").height(height);
+  $("#test").height(height);
 }
