@@ -1,6 +1,6 @@
 /* temp to make livedash development easier */
 #test {
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 0;
   padding: 0;
 }

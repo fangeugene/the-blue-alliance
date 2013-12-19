@@ -34,9 +34,23 @@ var MatchList = React.createClass({
   render: function() {
     var matchRows = [];
     var flag = false;
-    if (this.props.matches != null) {
-      for (var i=0; i<this.props.matches.length; i++) {
-        var match = this.props.matches[i];
+    
+    var teamMatches = [];
+    var teamKey = $("#team-live-dash").attr('data-team-key-name');
+    for (var i=0; i<this.props.matches.length; i++) {
+      var match = this.props.matches[i];
+      var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
+      for (var j=0; j<matchTeamKeys.length; j++) {
+        if (teamKey == matchTeamKeys[j]) {
+          teamMatches.push(match);
+          break;
+        }
+      }
+    }
+    
+    if (teamMatches != null) {
+      for (var i=0; i<teamMatches.length; i++) {
+        var match = teamMatches[i];
         if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
           matchRows.push(<NextMatchRow />);
           flag = true;
@@ -63,6 +77,12 @@ var MatchRow = React.createClass({
     });
     var redScore = this.props.match.alliances.red.score;
     var blueScore = this.props.match.alliances.blue.score;
+    if (redScore == -1) {
+      redScore = '?';
+    }
+    if (blueScore == -1) {
+      blueScore = '?';
+    }
     return (
       <div className="match">
         <div className="match-number">{name}</div>
