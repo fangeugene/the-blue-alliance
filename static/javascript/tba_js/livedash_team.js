@@ -4,8 +4,10 @@ var LivedashPanel = React.createClass({
   render: function() {
     fixLayout();
     var matches = [];
+    var rankings = [];
     if (this.state != null) {
       matches = this.state.event.matches;
+      rankings = this.state.event.rankings;
     }
     return (
       <div>
@@ -34,7 +36,7 @@ var LivedashPanel = React.createClass({
           <div className="col-sm-4">
             <div className="row">
               <div className="col-sm-6">
-                <div className="well">Rank</div>
+                <RankBox rankings={rankings} />
               </div>
               <div className="col-sm-6">
                 <div className="well">W-L-T</div>
@@ -127,6 +129,23 @@ var NextMatchRow = React.createClass({
     return (
       <div id="next-match">
         Next match in 3:13
+      </div>
+    );
+  }
+});
+
+var RankBox = React.createClass({
+  render: function() {
+    var teamNum = $("#team-live-dash").attr('data-team-key-name').substring(3);
+    var rank = "?";
+    for (var i=0; i<this.props.rankings.length; i++) {
+      if (this.props.rankings[i][1] == teamNum) {
+        rank = this.props.rankings[i][0];
+      }
+    }
+    return (
+      <div className="well">
+        Rank: {rank}
       </div>
     );
   }
