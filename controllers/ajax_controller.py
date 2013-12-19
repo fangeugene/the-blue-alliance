@@ -41,7 +41,7 @@ class LivedashHandler(CacheableHandler):
         matches = []
         for match in event.matches:
             matches.append({
-                'name': match.verbose_name,
+                'name': match.verbose_name_short,
                 'alliances': match.alliances,
                 'order': match.play_order,
             })
