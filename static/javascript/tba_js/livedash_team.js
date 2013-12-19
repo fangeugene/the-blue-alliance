@@ -3,7 +3,7 @@
 var LivedashPanel = React.createClass({
   render: function() {
     fixLayout();
-    var matches = [];
+    var teamMatches = [];
     var rankings = [];
     if (this.state != null) {
       rankings = this.state.event.rankings;
@@ -14,7 +14,7 @@ var LivedashPanel = React.createClass({
         var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
         for (var j=0; j<matchTeamKeys.length; j++) {
           if (teamKey == matchTeamKeys[j]) {
-            matches.push(match);
+            teamMatches.push(match);
             break;
           }
         }
@@ -27,7 +27,7 @@ var LivedashPanel = React.createClass({
             <WebcastCell />
           </div>
           <div className="col-sm-4">
-            <MatchList matches={matches} />
+            <MatchList teamMatches={teamMatches} />
           </div>
         </div>
         <div className="row">
@@ -50,7 +50,7 @@ var LivedashPanel = React.createClass({
                 <RankBox rankings={rankings} />
               </div>
               <div className="col-sm-6">
-                <WLTBox matches={matches} />
+                <WLTBox teamMatches={teamMatches} />
               </div>
             </div>
           </div>
@@ -74,8 +74,8 @@ var MatchList = React.createClass({
   render: function() {
     var matchRows = [];
     var flag = false;
-    for (var i=0; i<this.props.matches.length; i++) {
-      var match = this.props.matches[i];
+    for (var i=0; i<this.props.teamMatches.length; i++) {
+      var match = this.props.teamMatches[i];
       if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
         matchRows.push(<NextMatchRow />);
         flag = true;
@@ -153,8 +153,8 @@ var WLTBox = React.createClass({
     var losses = 0;
     var ties = 0;
     var teamKey = $("#team-live-dash").attr('data-team-key-name');
-    for (var i=0; i<this.props.matches.length; i++) {
-      var match = this.props.matches[i];
+    for (var i=0; i<this.props.teamMatches.length; i++) {
+      var match = this.props.teamMatches[i];
       var redTeams = match.alliances.red.teams;
       var redScore = match.alliances.red.score;
       var blueScore = match.alliances.blue.score;
