@@ -5,6 +5,15 @@
   padding: 0;
 }
 
+#next-match {
+  background-color: yellow;
+  height: 20px;
+  width: 100%;
+  border-bottom: 1px #ffffff solid;
+  display: block;
+  text-align: center;
+}
+
 .match {
   height: 40px;
   width: 100%;

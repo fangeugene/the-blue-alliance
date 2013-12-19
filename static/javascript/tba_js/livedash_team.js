@@ -13,7 +13,7 @@ var LivedashPanel = React.createClass({
           <WebcastCell />
         </div>
         <div className="col-sm-4">
-          <MatchTable matches={matches} />
+          <MatchList matches={matches} />
         </div>
       </div>
     );
@@ -30,13 +30,19 @@ var WebcastCell = React.createClass({
   }
 });
 
-var MatchTable = React.createClass({
+var MatchList = React.createClass({
   render: function() {
     var matchRows = [];
+    var flag = false;
     if (this.props.matches != null) {
-      var matchRows = this.props.matches.map(function(match) {
-        return <MatchRow match={match} />;
-      });
+      for (var i=0; i<this.props.matches.length; i++) {
+        var match = this.props.matches[i];
+        if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
+          matchRows.push(<NextMatchRow />);
+          flag = true;
+        }
+        matchRows.push(<MatchRow match={match} />);
+      }
     }
     return (
       <div id="test" className="well">
@@ -69,6 +75,16 @@ var MatchRow = React.createClass({
   }
 });
 
+var NextMatchRow = React.createClass({
+  render: function() {
+    return (
+      <div id="next-match">
+        Next match in 3:13
+      </div>
+    );
+  }
+});
+
 var a = React.renderComponent(
   <LivedashPanel />,
   document.getElementById('team-live-dash')
@@ -78,7 +94,7 @@ function test() {
   var newProps = {};
   $.ajax({
     dataType: 'json',
-    url: '/_/livedash/2013casj',
+    url: '/_/livedash/2013testpresent',
     success: function(event) {
       event.matches.sort(function(match1, match2){return match1.order - match2.order});
       a.setState({event: event});
@@ -100,4 +116,12 @@ function fixLayout() {
   var height = width * 9 / 16;
   $("#webcast-container").height(height);
   $("#test").height(height);
+  
+  var $parentDiv = $("#test");
+  var $innerListItem = $("#next-match");
+  if ($parentDiv && $innerListItem.position()) {
+    $parentDiv.animate({
+      scrollTop: $parentDiv.scrollTop() + $innerListItem.position().top - $parentDiv.height()/2 + $innerListItem.height()/2
+    }, 250);
+  }
 }
