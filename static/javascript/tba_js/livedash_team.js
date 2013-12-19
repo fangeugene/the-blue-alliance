@@ -2,6 +2,7 @@
 
 var LivedashPanel = React.createClass({
   render: function() {
+    fixLayout();
     var matches = [];
     if (this.state != null) {
       matches = this.state.event.matches;
@@ -12,7 +13,7 @@ var LivedashPanel = React.createClass({
           <WebcastCell />
         </div>
         <div className="col-sm-4">
-          <MatchTable matches={matches} />
+          <MatchList matches={matches} />
         </div>
       </div>
     );
@@ -22,24 +23,24 @@ var LivedashPanel = React.createClass({
 var WebcastCell = React.createClass({
   render: function() {
     return (
-      <div className="well">
-        WEBCAST GOES HERE
+      <div id="webcast-container">
+        <object type='application/x-shockwave-flash' height='100%' width='100%' id='live_embed_player_flash' data='http://www.twitch.tv/widgets/live_embed_player.swf?channel=tbagameday' bgcolor='#000000'><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><param name='allowNetworking' value='all' /><param name='movie' value='http://www.twitch.tv/widgets/live_embed_player.swf' /><param name='flashvars' value='hostname=www.twitch.tv&channel={{webcast.channel}}&auto_play=true&start_volume=25&enable_javascript=true' /><param name='wmode' value='transparent' /></object>
       </div>
     );
   }
 });
 
-var MatchTable = React.createClass({
+var MatchList = React.createClass({
   render: function() {
     var matches = [];
     if (this.props.matches != null) {
       matches = this.props.matches
     }
     var matchRows = matches.map(function (match) {
-      return <MatchRow match={match.name} />;
+      return <MatchRow match={match} />;
     });
     return (
-      <div className="well">
+      <div id="match-list" className="well">
         {matchRows}
       </div>
     );
@@ -48,9 +49,13 @@ var MatchTable = React.createClass({
 
 var MatchRow = React.createClass({
   render: function() {
+    var redTeams = this.props.match.alliances.red.teams.map(function (team) {
+      return ' ' + team.substring(3) + ' ';
+    })
     return (
       <div>
-        {this.props.match}
+        {this.props.match.name}
+        {redTeams}
       </div>
     );
   }
@@ -76,4 +81,15 @@ function test() {
 
 $( document ).ready(function() {
   test();
+
+  $(window).resize(function(){
+    fixLayout();
+  });
 });
+
+function fixLayout() {
+  var width = $("#webcast-container").width();
+  var height = width * 9 / 16;
+  $("#webcast-container").height(height);
+  $("#match-list").height(height);
+}

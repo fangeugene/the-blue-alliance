@@ -167,11 +167,11 @@ class Match(ndb.Model):
     @property
     def verbose_name_short(self):
         if self.comp_level == "qm":
-            return "Q %s" % self.match_number
+            return "Q%s" % self.match_number
         elif self.comp_level == "f":
-            return "F %s" % self.match_number
+            return "F%s" % self.match_number
         else:
-            return "%s %s-%s" % (self.comp_level.upper(), self.set_number, self.match_number)
+            return "%s%s-%s" % (self.comp_level.upper(), self.set_number, self.match_number)
 
     @property
     def has_video(self):
