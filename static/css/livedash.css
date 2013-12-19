@@ -40,19 +40,19 @@
   margin: 0 10px 0 0;
 }
 
-.red {
+.match .red {
   color: #FF0000;
   display: inline-block;
   line-height: 20px;
 }
 
-.blue {
+.match .blue {
   color: #0066FF;
   display: inline-block;
   line-height: 20px;
 }
 
-.red, .blue {
+.match .red, .match .blue {
   font-size: 13px;
   width: auto;
   height: 50%;
