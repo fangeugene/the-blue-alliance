@@ -6,8 +6,19 @@ var LivedashPanel = React.createClass({
     var matches = [];
     var rankings = [];
     if (this.state != null) {
-      matches = this.state.event.matches;
       rankings = this.state.event.rankings;
+      
+      var teamKey = $("#team-live-dash").attr('data-team-key-name');
+      for (var i=0; i<this.state.event.matches.length; i++) {
+        var match = this.state.event.matches[i];
+        var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
+        for (var j=0; j<matchTeamKeys.length; j++) {
+          if (teamKey == matchTeamKeys[j]) {
+            matches.push(match);
+            break;
+          }
+        }
+      }
     }
     return (
       <div>
@@ -39,7 +50,7 @@ var LivedashPanel = React.createClass({
                 <RankBox rankings={rankings} />
               </div>
               <div className="col-sm-6">
-                <div className="well">W-L-T</div>
+                <WLTBox matches={matches} />
               </div>
             </div>
           </div>
@@ -63,29 +74,13 @@ var MatchList = React.createClass({
   render: function() {
     var matchRows = [];
     var flag = false;
-    
-    var teamMatches = [];
-    var teamKey = $("#team-live-dash").attr('data-team-key-name');
     for (var i=0; i<this.props.matches.length; i++) {
       var match = this.props.matches[i];
-      var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
-      for (var j=0; j<matchTeamKeys.length; j++) {
-        if (teamKey == matchTeamKeys[j]) {
-          teamMatches.push(match);
-          break;
-        }
+      if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
+        matchRows.push(<NextMatchRow />);
+        flag = true;
       }
-    }
-    
-    if (teamMatches != null) {
-      for (var i=0; i<teamMatches.length; i++) {
-        var match = teamMatches[i];
-        if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
-          matchRows.push(<NextMatchRow />);
-          flag = true;
-        }
-        matchRows.push(<MatchRow match={match} />);
-      }
+      matchRows.push(<MatchRow match={match} />);
     }
     return (
       <div id="test" className="well">
@@ -150,6 +145,46 @@ var RankBox = React.createClass({
     );
   }
 });
+
+
+var WLTBox = React.createClass({
+  render: function() {
+    var wins = 0;
+    var losses = 0;
+    var ties = 0;
+    var teamKey = $("#team-live-dash").attr('data-team-key-name');
+    for (var i=0; i<this.props.matches.length; i++) {
+      var match = this.props.matches[i];
+      var redTeams = match.alliances.red.teams;
+      var redScore = match.alliances.red.score;
+      var blueScore = match.alliances.blue.score;
+      var onRed = redTeams.indexOf(teamKey) != -1;
+      if (redScore == -1 || blueScore == -1){
+        continue;
+      } else if (redScore == blueScore) {
+        ties += 1;
+      } else if (redScore > blueScore) {
+        if (onRed) {
+          wins += 1;
+        } else {
+          losses += 1;
+        }
+      } else {
+        if (onRed) {
+          losses += 1;
+        } else {
+          wins += 1;
+        }
+      }
+    }
+    return (
+      <div className="well">
+        W-L-T: {wins}-{losses}-{ties}
+      </div>
+    );
+  }
+});
+
 
 var a = React.renderComponent(
   <LivedashPanel />,
