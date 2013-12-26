@@ -34,13 +34,13 @@ var LivedashPanel = React.createClass({
           <div className="col-sm-8">
             <div className="row">
               <div className="col-sm-4">
-                <div className="well">1</div>
+                <div className="well">Last Match: QM45</div>
               </div>
               <div className="col-sm-4">
-                <div className="well">1</div>
+                <div className="well">Current Match: QM46</div>
               </div>
               <div className="col-sm-4">
-                <div className="well">1</div>
+                <div className="well">Next Match: QM47</div>
               </div>
             </div>
           </div>
