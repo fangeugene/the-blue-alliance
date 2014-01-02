@@ -44,6 +44,7 @@ class LivedashHandler(CacheableHandler):
                 'name': match.verbose_name_short,
                 'alliances': match.alliances,
                 'order': match.play_order,
+                'time_str': match.time_string,
             })
 
         event_dict = {

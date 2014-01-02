@@ -93,6 +93,7 @@ var MatchList = React.createClass({
 var MatchRow = React.createClass({
   render: function() {
     var name = this.props.match.name;
+    var time_str = this.props.match.time_str;
     var redTeams = this.props.match.alliances.red.teams.map(function (team) {
       return team.substring(3);
     });
@@ -109,6 +110,7 @@ var MatchRow = React.createClass({
     }
     return (
       <div className="match">
+        <div className="match-time">{time_str}</div>
         <div className="match-number">{name}</div>
         <div className="alliances">
           <div className="red">{redTeams[0]}, {redTeams[1]}, {redTeams[2]} - {redScore}</div>
@@ -123,7 +125,7 @@ var NextMatchRow = React.createClass({
   render: function() {
     return (
       <div id="next-match">
-        Next match in 3:13
+        Next match
       </div>
     );
   }
