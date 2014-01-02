@@ -55,6 +55,7 @@ var LivedashPanel = React.createClass({
             </div>
           </div>
         </div>
+        <RankingsList rankings={rankings} />
       </div>
     );
   }
@@ -148,7 +149,6 @@ var RankBox = React.createClass({
   }
 });
 
-
 var WLTBox = React.createClass({
   render: function() {
     var wins = 0;
@@ -187,6 +187,40 @@ var WLTBox = React.createClass({
   }
 });
 
+var RankingsList = React.createClass({
+  render: function() {
+    var rankingHeader = null;
+    var rankingRows = [];
+    for (var i=0; i<this.props.rankings.length; i++) {
+      var rowData = this.props.rankings[i];
+      var rankingRow = [];
+      for (var j=0; j<rowData.length; j++) {
+        if (i == 0) {
+          rankingRow.push(<th>{rowData[j]}</th>);
+        } else {
+          rankingRow.push(<td>{rowData[j]}</td>);
+        }
+      }
+      if (i == 0) {
+        rankingHeader = <tr>{rankingRow}</tr>;
+      } else {
+        rankingRows.push(<tr>{rankingRow}</tr>);
+      }
+    }
+    return (
+      <div className="well pre-scrollable">
+        <table className="table table-striped table-condensed table-center">
+          <thead>
+            {rankingHeader}
+          </thead>
+          <tbody>
+            {rankingRows}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+});
 
 var a = React.renderComponent(
   <LivedashPanel />,
