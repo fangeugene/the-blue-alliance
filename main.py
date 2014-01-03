@@ -6,6 +6,7 @@ import tba_config
 
 from controllers.account_controller import AccountEdit, AccountLogout, AccountOverview, AccountRegister
 from controllers.ajax_controller import TypeaheadHandler, WebcastHandler
+from controllers.badge_controller import TeamBadge
 from controllers.event_controller import EventList, EventDetail, EventRss
 from controllers.gameday2_controller import Gameday2Controller
 from controllers.insights_controller import InsightsOverview, InsightsDetail
@@ -67,6 +68,7 @@ app = webapp2.WSGIApplication([
       webapp2.Route(r'/team/<team_number:[0-9]+>/history', TeamHistory, 'team-history'),
       webapp2.Route(r'/teams', TeamList, 'team-list'),
       webapp2.Route(r'/teams/<page:[0-9]+>', TeamList, 'team-list'),
+      webapp2.Route(r'/teambadge/<team_num:[0-9]+>.png', TeamBadge, 'team-badge'),
       webapp2.Route(r'/thanks', ThanksHandler, 'thanks'),
       webapp2.Route(r'/webcasts', WebcastsHandler, 'webcasts'),
       webapp2.Route(r'/_/typeahead/<search_key>', TypeaheadHandler, 'ajax-typeahead'),
