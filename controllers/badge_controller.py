@@ -11,6 +11,7 @@ from google.appengine.ext import ndb
 from google.appengine.ext.webapp import template
 
 from base_controller import CacheableHandler
+from consts.event_type import EventType
 from helpers.event_helper import EventHelper
 from helpers.data_fetchers.team_details_data_fetcher import TeamDetailsDataFetcher
 
@@ -47,6 +48,7 @@ class TeamBadge(CacheableHandler):
 
         badge_background_path = os.path.join(os.path.dirname(__file__), '../static/images/tba_badge_background.png')
         image = Image.open(badge_background_path)
+        width, height = image.size
 
         draw = ImageDraw.Draw(image)
         font_path = os.path.join(os.path.dirname(__file__), '../utils/fonts/tahoma.ttf')
@@ -60,18 +62,27 @@ class TeamBadge(CacheableHandler):
 
         draw.text((10, 2), team_str, (0, 0, 0), font=teamname_font)
 
-        offset = 22
+        STARTING_TOP_OFFSET = 22
+        top_offset = STARTING_TOP_OFFSET
+        left_offset = 15
         for event in events_sorted:
+            if not event.official:
+                continue
             event_matches = matches_by_event_key.get(event.key, [])
             wlt_str = ''
             if event_matches:
                 wlt = EventHelper.calculateTeamWLTFromMatches(team.key_name, event_matches)
                 wlt_str = ' ({}-{}-{})'.format(wlt['win'], wlt['loss'], wlt['tie'])
             event_date = event.start_date.strftime('%b %d')
-            event_name = event.name if not event.short_name else event.short_name
+            event_name = event.name
+            if event.short_name:
+                event_name = '{} {}'.format(event.short_name, EventType.type_names_short[event.event_type_enum])
             event_str = "{}: {} {}".format(event_date, event_name, wlt_str)
-            draw.text((15, offset), event_str, (0, 0, 0), font=event_font)
-            offset += 10
+            draw.text((left_offset, top_offset), event_str, (0, 0, 0), font=event_font)
+            top_offset += 10
+            if top_offset > height - 10:
+                top_offset = STARTING_TOP_OFFSET
+                left_offset = width / 2
 
         output = StringIO.StringIO()
         image.save(output, format="png")

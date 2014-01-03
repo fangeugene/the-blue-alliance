@@ -19,6 +19,17 @@ class EventType(object):
         UNLABLED: '--',
     }
 
+    type_names_short = {
+        REGIONAL: 'Regional',
+        DISTRICT: 'District',
+        DISTRICT_CMP: 'District CMP',
+        CMP_DIVISION: 'Division',
+        CMP_FINALS: '',
+        OFFSEASON: 'Offseason',
+        PRESEASON: 'Preseason',
+        UNLABLED: '--',
+    }
+
     NON_CMP_EVENT_TYPES = {
         REGIONAL,
         DISTRICT,
