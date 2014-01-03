@@ -49,8 +49,9 @@ class TeamBadge(CacheableHandler):
         image = Image.open(badge_background_path)
 
         draw = ImageDraw.Draw(image)
-        font_path = os.path.join(os.path.dirname(__file__), '../utils/tbadotnet/slkscr.ttf')
-        teamname_font = ImageFont.truetype(font_path, 16)
+        font_path = os.path.join(os.path.dirname(__file__), '../utils/fonts/tahoma.ttf')
+        boldfont_path = os.path.join(os.path.dirname(__file__), '../utils/fonts/tahomabd.ttf')
+        teamname_font = ImageFont.truetype(boldfont_path, 16)
         event_font = ImageFont.truetype(font_path, 10)
 
         team_str = "Team {}".format(team.team_number)
