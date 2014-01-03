@@ -1,23 +1,17 @@
 import os
 import urllib2
-import json
 import StringIO
 import datetime
 
 from PIL import Image, ImageDraw, ImageFont
 
-from google.appengine.api import memcache
-from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
 
 from base_controller import CacheableHandler
 from consts.event_type import EventType
 from helpers.event_helper import EventHelper
 from helpers.data_fetchers.team_details_data_fetcher import TeamDetailsDataFetcher
 
-from models.event import Event
 from models.team import Team
-import tba_config
 
 
 class TeamBadge(CacheableHandler):
