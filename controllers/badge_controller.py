@@ -71,7 +71,7 @@ class TeamBadge(CacheableHandler):
             event_name = event.name
             if event.short_name:
                 event_name = '{} {}'.format(event.short_name, EventType.type_names_short[event.event_type_enum])
-            event_str = "{}: {} {}".format(event_date, event_name, wlt_str)
+            event_str = "{}: {}{}".format(event_date, event_name, wlt_str)
             draw.text((left_offset, top_offset), event_str, (0, 0, 0), font=event_font)
             top_offset += 10
             if top_offset > height - 10:
