@@ -5,7 +5,7 @@ import webapp2
 
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 import tba_config
 
@@ -23,8 +23,7 @@ def render_static(page):
     html = memcache.get(memcache_key)
 
     if html is None:
-        path = os.path.join(os.path.dirname(__file__), "../templates/%s.html" % page)
-        html = template.render(path, {})
+        html = template.render('{}.html'.format(page), {})
         if tba_config.CONFIG["memcache"]:
             memcache.set(memcache_key, html, 86400)
 
@@ -44,11 +43,10 @@ class MainKickoffHandler(CacheableHandler):
 
         is_kickoff = datetime.datetime.now() >= kickoff_datetime_est - datetime.timedelta(days=1)  # turn on 1 day before
 
-        path = os.path.join(os.path.dirname(__file__), "../templates/index_kickoff.html")
-        return template.render(path, {'is_kickoff': is_kickoff,
-                                      'kickoff_datetime_est': kickoff_datetime_est,
-                                      'kickoff_datetime_utc': kickoff_datetime_utc,
-                                      })
+        return template.render('index_kickoff.html', {'is_kickoff': is_kickoff,
+                                                      'kickoff_datetime_est': kickoff_datetime_est,
+                                                      'kickoff_datetime_utc': kickoff_datetime_utc,
+                                                      })
 
 
 class MainBuildseasonHandler(CacheableHandler):
@@ -62,10 +60,9 @@ class MainBuildseasonHandler(CacheableHandler):
         endbuild_datetime_est = datetime.datetime(2014, 2, 18, 0, 0)
         endbuild_datetime_utc = endbuild_datetime_est + datetime.timedelta(hours=5)
 
-        path = os.path.join(os.path.dirname(__file__), "../templates/index_buildseason.html")
-        return template.render(path, {'endbuild_datetime_est': endbuild_datetime_est,
-                                      'endbuild_datetime_utc': endbuild_datetime_utc
-                                      })
+        return template.render('index_buildseason.html', {'endbuild_datetime_est': endbuild_datetime_est,
+                                                          'endbuild_datetime_utc': endbuild_datetime_utc
+                                                          })
 
 
 class MainCompetitionseasonHandler(CacheableHandler):
@@ -81,8 +78,7 @@ class MainCompetitionseasonHandler(CacheableHandler):
             "events": week_events,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/index_competitionseason.html')
-        return template.render(path, template_values)
+        return template.render('index_competitionseason.html', template_values)
 
 
 class MainInsightsHandler(CacheableHandler):
@@ -103,8 +99,7 @@ class MainInsightsHandler(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/index_insights.html')
-        return template.render(path, template_values)
+        return template.render('index_insights.html', template_values)
 
 
 class MainOffseasonHandler(CacheableHandler):
@@ -120,8 +115,7 @@ class MainOffseasonHandler(CacheableHandler):
             "events": week_events,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/index_offseason.html')
-        return template.render(path, template_values)
+        return template.render('index_offseason.html', template_values)
 
 
 class ContactHandler(CacheableHandler):
@@ -132,8 +126,7 @@ class ContactHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/contact.html")
-        return template.render(path, {})
+        return template.render('contact.html', {})
 
 
 class HashtagsHandler(CacheableHandler):
@@ -144,8 +137,7 @@ class HashtagsHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/hashtags.html")
-        return template.render(path, {})
+        return template.render('hashtags.html', {})
 
 
 class AboutHandler(CacheableHandler):
@@ -156,8 +148,7 @@ class AboutHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/about.html")
-        return template.render(path, {})
+        return template.render('about.html', {})
 
 
 class ThanksHandler(CacheableHandler):
@@ -168,8 +159,7 @@ class ThanksHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/thanks.html")
-        return template.render(path, {})
+        return template.render('thanks.html', {})
 
 
 class OprHandler(CacheableHandler):
@@ -180,8 +170,7 @@ class OprHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/opr.html")
-        return template.render(path, {})
+        return template.render('opr.html', {})
 
 
 class SearchHandler(webapp2.RequestHandler):
@@ -246,8 +235,7 @@ class GamedayHandler(CacheableHandler):
                            'ongoing_events': ongoing_events,
                            'ongoing_events_w_webcasts': ongoing_events_w_webcasts}
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/gameday.html')
-        return template.render(path, template_values)
+        return template.render('gameday.html', template_values)
 
 
 class PageNotFoundHandler(webapp2.RequestHandler):
@@ -271,8 +259,7 @@ class WebcastsHandler(CacheableHandler):
             'events': events,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/webcasts.html')
-        return template.render(path, template_values)
+        return template.render('webcasts.html', template_values)
 
 
 class RecordHandler(CacheableHandler):
@@ -283,8 +270,7 @@ class RecordHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/record.html")
-        return template.render(path, {})
+        return template.render('record.html', {})
 
 
 class ApiDocumentationHandler(CacheableHandler):
@@ -295,5 +281,4 @@ class ApiDocumentationHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        path = os.path.join(os.path.dirname(__file__), "../templates/apidocs.html")
-        return template.render(path, {})
+        return template.render('apidocs.html', {})
