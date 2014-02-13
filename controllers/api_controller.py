@@ -273,8 +273,7 @@ class CsvTeamsAll(MainApiHandler):
                 "teams": teams
             }
 
-            path = os.path.join(os.path.dirname(__file__), '../templates/api/csv_teams_all.csv')
-            output = jinja2_engine.render(path, template_values)
+            output = jinja2_engine.render('api/csv_teams_all.csv', template_values)
             if tba_config.CONFIG["memcache"]:
                 memcache.set(memcache_key, output, 86400)
 

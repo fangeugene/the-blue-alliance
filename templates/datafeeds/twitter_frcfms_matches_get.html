@@ -9,7 +9,7 @@
         <p>Note that these matches aren't written into the database. Please
         paste matches into a CSV file and run the offseason CSV datafeed.</p>
     </div>
-    {% for event, matches in event_matches.items %}
+    {% for event, matches in event_matches.items() %}
     <h3>Got {{matches|length}} matches for {{event}}</h3>
       {% for match in matches %}
         {{match}}

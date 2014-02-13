@@ -8,6 +8,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 JINJA_ENVIRONMENT.filters['date'] = jinja2_filters.date
+JINJA_ENVIRONMENT.filters['date_ymd'] = jinja2_filters.date_ymd
 JINJA_ENVIRONMENT.filters['digits'] = jinja2_filters.digits
 JINJA_ENVIRONMENT.filters['escapeurl'] = jinja2_filters.escapeurl
 JINJA_ENVIRONMENT.filters['floatformat'] = jinja2_filters.floatformat

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}User List{% endblock %}
 
@@ -17,10 +17,10 @@
 
     {% for user in users %}
     <tr>
-        <td><a href="/admin/user/{{ user.key.id }}">{{ user.display_name }}</a></td>
+        <td><a href="/admin/user/{{ user.key.id() }}">{{ user.display_name }}</a></td>
         <td>{{ user.email }}</td>
-        <td><a href="/admin/user/{{ user.key.id }}">{{ user.key.id }}</a></td>
-	      <td>{{ user.created|date:"M d, Y" }}</td>
+        <td><a href="/admin/user/{{ user.key.id() }}">{{ user.key.id() }}</a></td>
+	      <td>{{ user.created|date("%B %d, %Y") }}</td>
         <td>{% if user.registered %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
     </tr>
     {% endfor %}

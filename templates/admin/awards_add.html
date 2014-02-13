@@ -1,7 +1,7 @@
 <h2>Got {{awards|length}} Awards</h2>
 {% for award in awards %}
     <ul>
-        <li>Event: {{award.event.id}}</li>
+        <li>Event: {{award.event.id()}}</li>
         <li>Name: {{award.name_str}}</li>
         <li>Type: {{award.award_type_enum}}</li>
         {% if award.team_list %}

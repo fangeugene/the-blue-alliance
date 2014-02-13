@@ -25,8 +25,7 @@ class SuggestEventWebcastController(LoggedInHandler):
             "event": event,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/suggest_event_webcast.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('suggest_event_webcast.html', self.template_values))
 
     def post(self):
         self._require_login()

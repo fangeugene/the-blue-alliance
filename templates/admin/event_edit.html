@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}{{event.key_name}} - Edit{% endblock %}
 
@@ -18,13 +18,13 @@
         <tr>
             <td>Dates</td>
             <td>
-                <input type="text" name="start_date" value="{{ event.start_date|date:"Y-m-d" }}" placeholder="2012-04-04"/> to <input type="text" name="end_date" value="{{ event.end_date|date:"Y-m-d" }}" placeholder="2012-04-06" />
+                <input type="text" name="start_date" value="{{ event.start_date|date("%B-%d-%Y") }}" placeholder="2012-04-04"/> to <input type="text" name="end_date" value="{{ event.end_date|date("%B-%d-%Y") }}" placeholder="2012-04-06" />
             </td>
         </tr>
 
         <tr>
             <td>Dates</td>
-            <td>{{ event.start_date|date:"M d, Y" }} to {{ event.end_date|date:"M d, Y" }}</td>
+            <td>{{ event.start_date|date("%B %d, %Y") }} to {{ event.end_date|date("%B %d, %Y") }}</td>
         </tr>
         <tr>
             <td>Short Name</td>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}Pending Suggestions{% endblock %}
 
@@ -43,7 +43,7 @@
                         <tr>
                             <td>Dates</td>
                             <td>
-                                <input type="text" name="event_start_date" value="{{ event.start_date|date:"Y-m-d" }}" placeholder="2012-04-04"/> to <input type="text" name="event_end_date" value="{{ event.end_date|date:"Y-m-d" }}" placeholder="2012-04-06" />
+                                <input type="text" name="event_start_date" value="{{ event.start_date|date("%B-%d-%Y") }}" placeholder="2012-04-04"/> to <input type="text" name="event_end_date" value="{{ event.end_date|date("%B-%d-%Y") }}" placeholder="2012-04-06" />
                             </td>
                         </tr>
                         <tr>
@@ -68,7 +68,7 @@
                 </form>
             </div>
         </div>                
-        {% empty %}
+        {% else %}
         <div class="row">
             <div class="well">
                 <p>No new offseasons!</p>

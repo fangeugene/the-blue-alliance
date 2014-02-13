@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}Pending Suggestions{% endblock %}
 
 {% block content %}
 
-<h1>{{ suggestions|length }} Pending Suggestions</h1>
+<h1>{{ suggestions.count() }} Pending Suggestions</h1>
 
 <form action="/admin/suggestions/match/video/review" method="post">
     <div class="col-xs-12">
@@ -38,8 +38,8 @@
         <div class="row">
             <div class="well">
                 <div class="col-xs-2">
-                  <label class="checkbox text-success" for="accept_{{suggestion.key.id}}"><input class="accept" type="checkbox" name="accept_keys[]" id="accept_{{suggestion.key.id}}" value="{{suggestion.key.id}}"> Accept</label>
-                  <label class="checkbox text-danger" for="reject_{{suggestion.key.id}}"><input class="reject" type="checkbox" name="reject_keys[]" id="reject_{{suggestion.key.id}}" value="{{suggestion.key.id}}"> Reject</label>
+                  <label class="checkbox text-success" for="accept_{{suggestion.key.id()}}"><input class="accept" type="checkbox" name="accept_keys[]" id="accept_{{suggestion.key.id()}}" value="{{suggestion.key.id()}}"> Accept</label>
+                  <label class="checkbox text-danger" for="reject_{{suggestion.key.id()}}"><input class="reject" type="checkbox" name="reject_keys[]" id="reject_{{suggestion.key.id()}}" value="{{suggestion.key.id()}}"> Reject</label>
                 </div>
                 <div class="col-xs-4 fitvids">
                     <p><strong>{{ suggestion.target_key }}</strong></p>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="col-xs-6">
                     <ul>
-                        <li>{{ suggestion.author.get.email }}</a></li>
-                        <li>{{ suggestion.author.get.nickname }}</a></li>
+                        <li>{{ suggestion.author.get().email }}</a></li>
+                        <li>{{ suggestion.author.get().nickname }}</a></li>
                         <li>{{ suggestion.target_model }}:{{ suggestion.target_key }}</li>
                         <li>{{ suggestion.contents_json }}</li>
                     </ul>
@@ -56,7 +56,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        {% empty %}
+        {% else %}
         <div class="row">
             <div class="well">
                 <p>No suggestions! Go build more community!</p>

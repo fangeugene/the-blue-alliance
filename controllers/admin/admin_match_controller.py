@@ -21,8 +21,7 @@ class AdminMatchCleanup(LoggedInHandler):
     """
     def get(self):
         self._require_admin()
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/matches_cleanup.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/matches_cleanup.html', self.template_values))
 
     def post(self):
         self._require_admin()
@@ -42,8 +41,7 @@ class AdminMatchCleanup(LoggedInHandler):
             "tried_delete": True
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/matches_cleanup.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/matches_cleanup.html', self.template_values))
 
 
 class AdminMatchDashboard(LoggedInHandler):
@@ -53,8 +51,7 @@ class AdminMatchDashboard(LoggedInHandler):
     def get(self):
         self._require_admin()
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/match_dashboard.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/match_dashboard.html', self.template_values))
 
 
 class AdminMatchDelete(LoggedInHandler):
@@ -70,8 +67,7 @@ class AdminMatchDelete(LoggedInHandler):
             "match": match
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/match_delete.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/match_delete.html', self.template_values))
 
     def post(self, match_key_id):
         self._require_admin()
@@ -101,8 +97,7 @@ class AdminMatchDetail(LoggedInHandler):
             "match": match
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/match_details.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/match_details.html', self.template_values))
 
 
 class AdminMatchAdd(LoggedInHandler):
@@ -158,8 +153,7 @@ class AdminMatchEdit(LoggedInHandler):
             "match": match
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/match_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/match_edit.html', self.template_values))
 
     def post(self, match_key):
         self._require_admin()
@@ -192,8 +186,7 @@ class AdminVideosAdd(LoggedInHandler):
     """
     def get(self):
         self._require_admin()
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/videos_add.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/videos_add.html', self.template_values))
 
     def post(self):
         self._require_admin()
@@ -222,5 +215,4 @@ class AdminVideosAdd(LoggedInHandler):
             "results": results,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/videos_add.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/videos_add.html', self.template_values))

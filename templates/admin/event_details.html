@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}{{event.key_name}}{% endblock %}
 
@@ -21,7 +21,7 @@
     </tr>
     <tr>
         <td>Dates</td>
-        <td>{{ event.start_date|date:"M d, Y" }} to {{ event.end_date|date:"M d, Y" }}</td>
+        <td>{{ event.start_date|date("%B %d, %Y") }} to {{ event.end_date|date("%B %d, %Y") }}</td>
     </tr>
     <tr>
         <td>Short Name</td>
@@ -84,25 +84,27 @@
 
 <h2>Add Webcast</h2>
 <form action="/admin/event/add_webcast/{{event.key_name}}" method="post">
-    {% include "partials/webcast_add_form_partial.html" %}
+    {% include "admin/partials/webcast_add_form_partial.html" %}
     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Add Webcast</button>
 </form>
 
 <h2>Rankings</h2>
 <table class="table table-striped table-condensed table-center">
-  {% for row in event.rankings %}
-      <tr>
-      {% if forloop.first %}
-            {% for element in row %}
-                <th>{{ element }}</th>
-            {% endfor %}
-      {% else %}
-        {% for element in row %}
-            <td>{{ element }}</td>
-        {% endfor %}
-    {% endif %}
-    </tr>
-  {% endfor %}
+  {% if event.rankings %}
+    {% for row in event.rankings %}
+        <tr>
+        {% if forloop.first %}
+              {% for element in row %}
+                  <th>{{ element }}</th>
+              {% endfor %}
+        {% else %}
+          {% for element in row %}
+              <td>{{ element }}</td>
+          {% endfor %}
+      {% endif %}
+      </tr>
+    {% endfor %}
+  {% endif %}
 </table>
 
 <h2>Awards</h2>

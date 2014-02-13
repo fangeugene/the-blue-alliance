@@ -92,8 +92,7 @@ class WebcastHandler(CacheableHandler):
         webcast_type = webcast['type']
         template_values = {'webcast': webcast}
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/webcast/' + webcast_type + '.html')
-        return jinja2_engine.render(path, template_values)
+        return jinja2_engine.render('webcast/' + webcast_type + '.html', template_values)
 
     def memcacheFlush(self, event_key):
         keys = [self.cache_key.format(event_key, n) for n in range(10)]

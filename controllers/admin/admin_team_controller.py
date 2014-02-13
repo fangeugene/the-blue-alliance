@@ -20,8 +20,7 @@ class AdminTeamList(LoggedInHandler):
             "teams": teams,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/team_list.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/team_list.html', self.template_values))
 
 
 class AdminTeamDetail(LoggedInHandler):
@@ -39,5 +38,4 @@ class AdminTeamDetail(LoggedInHandler):
             'team': team,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/team_details.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/team_details.html', self.template_values))

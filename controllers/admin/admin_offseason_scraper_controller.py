@@ -37,8 +37,7 @@ class AdminOffseasonScraperController(LoggedInHandler):
 
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/offseasons.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/offseasons.html', self.template_values))
 
     def post(self):
         self._require_admin()

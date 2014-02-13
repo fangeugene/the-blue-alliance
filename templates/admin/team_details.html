@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}frc{{team.team_number}} - TBA Admin{% endblock %}
 
@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <td>Events</td>
-        <td>{{event_teams|length}} Events - {% for event_team in event_teams %}<a href="/admin/event/{{event_team.event.id}}">{{event_team.event.id}}</a>, {% endfor %}</td>
+        <td>{{event_teams|length}} Events - {% for event_team in event_teams %}<a href="/admin/event/{{event_team.event.id()}}">{{event_team.event.id()}}</a>, {% endfor %}</td>
     </tr>
 </table>
 

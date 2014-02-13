@@ -19,8 +19,7 @@ class AdminSitevarList(LoggedInHandler):
             "sitevars": sitevars,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_list.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/sitevar_list.html', self.template_values))
 
 
 class AdminSitevarCreate(LoggedInHandler):
@@ -30,8 +29,7 @@ class AdminSitevarCreate(LoggedInHandler):
     def get(self):
         self._require_admin()
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_create.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/sitevar_create.html', self.template_values))
 
 
 class AdminSitevarEdit(LoggedInHandler):
@@ -49,8 +47,7 @@ class AdminSitevarEdit(LoggedInHandler):
             "success": success,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/sitevar_edit.html', self.template_values))
 
     def post(self, sitevar_key):
         self._require_admin()

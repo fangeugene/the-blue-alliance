@@ -77,8 +77,7 @@ class AdminEventCreate(LoggedInHandler):
     def get(self):
         self._require_admin()
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_create.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/event_create.html', self.template_values))
 
 
 class AdminEventCreateTest(LoggedInHandler):
@@ -112,8 +111,7 @@ class AdminEventDelete(LoggedInHandler):
             "event": event
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_delete.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/event_delete.html', self.template_values))
 
     def post(self, event_key_id):
         self._require_admin()
@@ -150,8 +148,7 @@ class AdminEventDetail(LoggedInHandler):
             "event": event
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_details.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/event_details.html', self.template_values))
 
 
 class AdminEventEdit(LoggedInHandler):
@@ -167,8 +164,7 @@ class AdminEventEdit(LoggedInHandler):
             "event": event
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/event_edit.html', self.template_values))
 
     def post(self, event_key):
         self._require_admin()
@@ -217,5 +213,4 @@ class AdminEventList(LoggedInHandler):
             "events": events,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_list.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/event_list.html', self.template_values))

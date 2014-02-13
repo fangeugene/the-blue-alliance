@@ -10,7 +10,7 @@
     </div>
     <ul>
     {% for event_key in event_keys %}
-        <li><a href="/admin/event/{{event_key.id}}">{{event_key.id}}</a></li>
+        <li><a href="/admin/event/{{event_key.id()}}">{{event_key.id()}}</a></li>
     {% endfor %}
     </ul>
 </div>

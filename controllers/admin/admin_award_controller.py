@@ -25,8 +25,7 @@ class AdminAwardDashboard(LoggedInHandler):
             "award_count": award_count
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/award_dashboard.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/award_dashboard.html', self.template_values))
 
 
 class AdminAwardAdd(LoggedInHandler):
@@ -68,8 +67,7 @@ class AdminAwardAdd(LoggedInHandler):
         template_values = {
             'awards': new_awards,
         }
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/awards_add.html')
-        self.response.out.write(jinja2_engine.render(path, template_values))
+        self.response.out.write(jinja2_engine.render('admin/awards_add.html', template_values))
 
 
 class AdminAwardEdit(LoggedInHandler):
@@ -84,8 +82,7 @@ class AdminAwardEdit(LoggedInHandler):
             "award": award
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/award_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/award_edit.html', self.template_values))
 
     def post(self, award_key):
         self._require_admin()

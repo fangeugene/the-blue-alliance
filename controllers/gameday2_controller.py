@@ -27,5 +27,4 @@ class Gameday2Controller(CacheableHandler):
 
         template_values = {'webcasts': webcasts}
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/gameday2.html')
-        return jinja2_engine.render(path, template_values)
+        return jinja2_engine.render('gameday2.html', template_values)

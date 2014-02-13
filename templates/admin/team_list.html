@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}Teams{% endblock %}
 
 {% block content %}
 
-<h1>{{ teams|length }} Teams</h1>
+<h1>{{ teams.count() }} Teams</h1>
 
 <form class="form-inline">
     <legend>Jump to Team</legend>

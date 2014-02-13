@@ -31,8 +31,7 @@ class SuggestMatchVideoController(LoggedInHandler):
             "match": match,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/suggest_match_video.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('suggest_match_video.html', self.template_values))
 
     def post(self):
         self._require_login()

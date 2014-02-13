@@ -22,8 +22,7 @@ class AdminUserList(LoggedInHandler):
             "users": users,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_list.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/user_list.html', self.template_values))
 
 
 class AdminUserDetail(LoggedInHandler):
@@ -38,8 +37,7 @@ class AdminUserDetail(LoggedInHandler):
             "user": user
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_details.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/user_details.html', self.template_values))
 
 
 class AdminUserEdit(LoggedInHandler):
@@ -53,8 +51,7 @@ class AdminUserEdit(LoggedInHandler):
             "user": user
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/user_edit.html', self.template_values))
 
     def post(self, user_id):
         self._require_admin()

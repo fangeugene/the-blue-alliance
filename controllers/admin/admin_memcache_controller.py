@@ -30,8 +30,7 @@ class AdminMemcacheMain(LoggedInHandler):
             "memcache_stats": memcache.get_stats(),
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/memcache_index.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/memcache_index.html', self.template_values))
 
     def get(self):
         self._require_admin()
@@ -40,5 +39,4 @@ class AdminMemcacheMain(LoggedInHandler):
             "memcache_stats": memcache.get_stats(),
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/memcache_index.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/memcache_index.html', self.template_values))

@@ -14,8 +14,7 @@ class AccountOverview(LoggedInHandler):
         if not self.user_bundle.account.registered:
             self.redirect('/account/register')
             return None
-        path = os.path.join(os.path.dirname(__file__), '../templates/account_overview.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('account_overview.html', self.template_values))
 
 
 class AccountEdit(LoggedInHandler):
@@ -25,8 +24,7 @@ class AccountEdit(LoggedInHandler):
             self.redirect('/account/register')
             return None
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/account_edit.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('account_edit.html', self.template_values))
 
     def post(self):
         self._require_login('/account/edit')
@@ -54,8 +52,7 @@ class AccountRegister(LoggedInHandler):
             self.redirect('/account')
             return None
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/account_register.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('account_register.html', self.template_values))
 
     def post(self):
         self._require_login('/account/register')

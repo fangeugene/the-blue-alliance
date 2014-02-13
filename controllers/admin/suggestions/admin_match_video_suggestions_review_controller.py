@@ -24,8 +24,7 @@ class AdminMatchVideoSuggestionsReviewController(LoggedInHandler):
             "suggestions": suggestions,
         })
 
-        path = os.path.join(os.path.dirname(__file__), '../../../templates/admin/match_video_suggestion_list.html')
-        self.response.out.write(jinja2_engine.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/match_video_suggestion_list.html', self.template_values))
 
     def post(self):
         self._require_admin()
