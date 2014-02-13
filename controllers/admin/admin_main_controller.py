@@ -52,19 +52,16 @@ class AdminMain(LoggedInHandler):
             logging.warning("version_info.json parsing failed: %s" % e)
             pass
 
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/index.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(template.render('admin/index.html', self.template_values))
 
 
 class AdminDebugHandler(LoggedInHandler):
     def get(self):
         self._require_admin()
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/debug.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(template.render('admin/debug.html', self.template_values))
 
 
 class AdminTasksHandler(LoggedInHandler):
     def get(self):
         self._require_admin()
-        path = os.path.join(os.path.dirname(__file__), '../../templates/admin/tasks.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(template.render('admin/tasks.html', self.template_values))

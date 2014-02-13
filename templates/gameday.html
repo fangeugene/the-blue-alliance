@@ -67,7 +67,7 @@
         <ul class="dropdown-menu results">
         {% for event in ongoing_events %}
           <li><a class="event_results" href="/event/{{event.key_name}}">{{event.name}} [{{event.event_short|upper}}]</a></li>
-        {% empty %}
+        {% else %}
           <li><a>No events</a></li>
         {% endfor %}
         </ul>

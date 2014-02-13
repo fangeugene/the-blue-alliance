@@ -42,8 +42,7 @@ class EventShortNameCalcEnqueue(webapp.RequestHandler):
                 method='GET')
 
         template_values = {'events': events}
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/event_short_name_calc_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/event_short_name_calc_enqueue.html', template_values))
 
 
 class EventShortNameCalcDo(webapp.RequestHandler):
@@ -56,8 +55,7 @@ class EventShortNameCalcDo(webapp.RequestHandler):
         event.put()
 
         template_values = {'event': event}
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/event_short_name_calc_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/event_short_name_calc_do.html', template_values))
 
 
 class EventTeamRepairDo(webapp.RequestHandler):
@@ -79,8 +77,7 @@ class EventTeamRepairDo(webapp.RequestHandler):
             'event_teams': event_teams,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/eventteam_repair_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/eventteam_repair_do.html', template_values))
 
 
 class EventTeamUpdate(webapp.RequestHandler):
@@ -105,9 +102,7 @@ class EventTeamUpdate(webapp.RequestHandler):
             'deleted_event_teams_keys': et_keys_to_del
         }
 
-        path = os.path.join(os.path.dirname(__file__),
-                            '../templates/math/eventteam_update_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/eventteam_update_do.html', template_values))
 
 
 class EventTeamUpdateEnqueue(webapp.RequestHandler):
@@ -129,8 +124,7 @@ class EventTeamUpdateEnqueue(webapp.RequestHandler):
             'event_keys': event_keys,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/eventteam_update_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/eventteam_update_enqueue.html', template_values))
 
 
 class EventMatchstatsDo(webapp.RequestHandler):
@@ -150,8 +144,7 @@ class EventMatchstatsDo(webapp.RequestHandler):
             'matchstats_dict': matchstats_dict,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/event_matchstats_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/event_matchstats_do.html', template_values))
 
     def post(self):
         self.get()
@@ -180,8 +173,7 @@ class EventMatchstatsEnqueue(webapp.RequestHandler):
             'year': when
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/event_matchstats_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/event_matchstats_enqueue.html', template_values))
 
 
 class FinalMatchesRepairDo(webapp.RequestHandler):
@@ -220,8 +212,7 @@ class FinalMatchesRepairDo(webapp.RequestHandler):
         template_values = {'deleted_keys': deleted_keys,
                            'new_matches': matches_to_repair}
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/final_matches_repair_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/final_matches_repair_do.html', template_values))
 
 
 class YearInsightsEnqueue(webapp.RequestHandler):
@@ -238,8 +229,7 @@ class YearInsightsEnqueue(webapp.RequestHandler):
             'year': year
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/year_insights_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/year_insights_enqueue.html', template_values))
 
 
 class YearInsightsDo(webapp.RequestHandler):
@@ -266,8 +256,7 @@ class YearInsightsDo(webapp.RequestHandler):
             'kind': kind,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/year_insights_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/year_insights_do.html', template_values))
 
     def post(self):
         self.get()
@@ -286,8 +275,7 @@ class OverallInsightsEnqueue(webapp.RequestHandler):
             'kind': kind,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/overall_insights_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/overall_insights_enqueue.html', template_values))
 
 
 class OverallInsightsDo(webapp.RequestHandler):
@@ -311,8 +299,7 @@ class OverallInsightsDo(webapp.RequestHandler):
             'kind': kind,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/overall_insights_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/overall_insights_do.html', template_values))
 
     def post(self):
         self.get()
@@ -325,8 +312,7 @@ class TypeaheadCalcEnqueue(webapp.RequestHandler):
     def get(self):
         taskqueue.add(url='/tasks/math/do/typeaheadcalc', method='GET')
         template_values = {}
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/typeaheadcalc_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/typeaheadcalc_enqueue.html', template_values))
 
 
 class TypeaheadCalcDo(webapp.RequestHandler):
@@ -395,5 +381,4 @@ class TypeaheadCalcDo(webapp.RequestHandler):
         ndb.delete_multi(keys_to_delete)
 
         template_values = {'results': results}
-        path = os.path.join(os.path.dirname(__file__), '../templates/math/typeaheadcalc_do.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(template.render('math/typeaheadcalc_do.html', template_values))

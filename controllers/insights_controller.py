@@ -31,8 +31,7 @@ class InsightsOverview(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/insights.html')
-        return template.render(path, template_values)
+        return template.render('insights.html', template_values)
 
 
 class InsightsDetail(CacheableHandler):
@@ -68,5 +67,4 @@ class InsightsDetail(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/insights_details.html')
-        return template.render(path, template_values)
+        return template.render('insights_details.html', template_values)
