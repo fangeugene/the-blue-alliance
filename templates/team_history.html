@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'team_partials/team_year_dropdown.html' import team_year_dropdown %}
 
 {% block title %}{% if team.nickname %}{{team.nickname}} - {% endif %}Team {{team.team_number}} (History) - The Blue Alliance{% endblock %}
 
@@ -14,8 +15,7 @@
   <hr>
   <div class="row">
     <div class="col-xs-12">
-      {% set dropdown_label = "History" %}
-      {% include "team_partials/team_year_dropdown.html" %}
+      {{ team_year_dropdown(team, years, "History") }}
     </div>
   </div>
   <hr>

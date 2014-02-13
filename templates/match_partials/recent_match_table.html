@@ -1,3 +1,4 @@
+{% macro recent_match_table(matches) %}
 <table class="match-table">
   <thead>
     {% include "match_partials/match_table_header.html" %}
@@ -9,3 +10,4 @@
     {% endfor %}
   </tbody>
 </table>
+{% endmacro %}

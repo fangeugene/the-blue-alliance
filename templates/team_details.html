@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from 'match_partials/full_match_table.html' import full_match_table %}
+{% from 'team_partials/team_year_dropdown.html' import team_year_dropdown %}
 
 {% block title %}{% if team.nickname %}{{team.nickname}} - {% endif %}Team {{team.team_number}}{% if explicit_year %} ({{year}}){% endif %} - The Blue Alliance{% endblock %}
 
@@ -14,8 +16,7 @@
   <hr>
   <div class="row">
     <div class="col-sm-12">
-      {% set dropdown_label = "{} Season".format(year) %}
-      {% include "team_partials/team_year_dropdown.html" %}
+      {{ team_year_dropdown(team, years, "{} Season".format(year)) }}
 
       {% if year_wlt %}
         <p>Overall, team {{team.team_number}} was <strong>{{year_wlt.win}}-{{year_wlt.loss}}-{{year_wlt.tie}}</strong> in {{year}}.</p>
@@ -67,8 +68,7 @@
       </div>
       <div class="col-sm-8" style="margin-top: 1em">
         {% if comp.matches.num %}
-          {% set matches = comp.matches %}
-          {% include "match_partials/full_match_table.html" %}
+          {{ full_match_table(comp.matches) }}
         {% else %}
           {% if comp.event.past %}
             <p class="muted">No matches played.</p>
