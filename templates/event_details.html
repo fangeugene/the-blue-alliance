@@ -12,9 +12,9 @@
   <meta property="og:description" content="Videos and match results for the {{event.year}} {{event.name}} FIRST Robotics Competition in {{event.location}}."/>
   <meta property="og:site_name" content="The Blue Alliance" />
   <meta property="og:location" content="{{event.location}}" />
-  {% if event.start_date %}<meta property="og:start_time" content="{{event.start_date|date:"Y-m-d"}}" />
+  {% if event.start_date %}<meta property="og:start_time" content="{{event.start_date|date("Y-m-d")}}" />
   {% else %}<meta property="og:start_time" content="{{event.year}}" />{% endif %}
-  {% if event.end_date %}<meta property="og:end_time" content="{{event.end_date|date:"Y-m-d"}}" />{% endif %}
+  {% if event.end_date %}<meta property="og:end_time" content="{{event.end_date|date("Y-m-d")}}" />{% endif %}
   {% if event.venue %}<meta property="og:fn" content="{{event.venue}}" />{% endif %}
 {% endblock %}
 
@@ -30,8 +30,8 @@
   <div class="row">
     <div class="col-sm-8">
       <p>
-        {% if event.start_date %}<span class="glyphicon glyphicon-calendar"></span> <time itemprop="startDate" datetime="{{event.start_date|date:"c"}}">{{ event.start_date|date:"M jS" }}{% if event.start_date != event.end_date %}</time> to <time itemprop="endDate" datetime="{{event.end_date|date:"c"}}">{{ event.end_date|date:"M jS" }}{% endif %}{{ event.end_date|date:", Y" }}</time>{% endif %}
-        {% if event.location %}{% if not event.start_date %}<br /><span class="glyphicon glyphicon-map-marker"></span>{% endif %} in <a href="http://maps.google.com/maps?q={{ event.location|urlencode }}"><span itemprop="location">{{ event.location }}</span></a>{% endif %}
+        {% if event.start_date %}<span class="glyphicon glyphicon-calendar"></span> <time itemprop="startDate" datetime="{{event.start_date.isoformat()}}">{{ event.start_date|date("%B %d") }}{% if event.start_date != event.end_date %}</time> to <time itemprop="endDate" datetime="{{event.end_date.isoformat()}}">{{ event.end_date|date("%B %d") }}{% endif %}{{ event.end_date|date(", %Y") }}</time>{% endif %}
+        {% if event.location %}{% if not event.start_date %}<br /><span class="glyphicon glyphicon-map-marker"></span>{% endif %} in <a href="http://maps.google.com/maps?q={{ event.location|escapeurl }}"><span itemprop="location">{{ event.location }}</span></a>{% endif %}
         {% if event.website %}<br /><span class="glyphicon glyphicon-globe"></span> <a href="{{ event.website }}" title="{{ event.name }}">{{ event.website }}</a>{% endif %}
         {% if event.official %}{% if not event.website %}<br /><span class="glyphicon glyphicon-info-sign"></span>{% else %} - {% endif %} details on <a href="https://my.usfirst.org/myarea/index.lasso?page=teamlist&amp;event_type=FRC&amp;sort_teams=number&amp;year={{ event.year }}&amp;event={{ event.event_short }}">usfirst.org</a>{% endif %}
         {% if event.facebook_eid %}<br /><span class="glyphicon glyphicon-thumbs-up"></span> <a href="{{ event.facebook_event_url }}" title="Facebook Event">RSVP on Facebook</a><br />{% endif %}
@@ -39,7 +39,7 @@
 
       <p><strong>#frc{{ event.event_short }}</strong> <small><a href="/hashtags" rel="tooltip" title="What are hashtags?">?</a></small> - Search
         <a class="hashtag-link hashtag-twitter" href="https://twitter.com/search/%23frc{{ event.event_short }}" target="_blank" title="Search Twitter">Twitter</a> &middot;
-        <a class="hashtag-link hashtag-youtube" href="http://www.youtube.com/results?search_query=%23frc{{ event.event_short }}+OR+%22{{ event.name|urlencode }}%22" target="_blank" title="Search YouTube">YouTube</a> &middot;
+        <a class="hashtag-link hashtag-youtube" href="http://www.youtube.com/results?search_query=%23frc{{ event.event_short }}+OR+%22{{ event.name|escapeurl }}%22" target="_blank" title="Search YouTube">YouTube</a> &middot;
         <a class="hashtag-link hashtag-cd" href="http://www.chiefdelphi.com/media/photos/tags/frc{{ event.event_short }}" target="_blank" title="Search Chief Delphi">Chief Delphi</a> &middot;
         <a class="hashtag-link hashtag-flickr" href="http://www.flickr.com/search/?q=%23frc{{ event.event_short }}" target="_blank" title="Search Flickr">Flickr</a>
       </p>
@@ -65,17 +65,15 @@
         {% if matches_upcoming %}
         <div class="col-sm-6">
           <h4>Upcoming Matches</h4>
-          {% with matches_upcoming as matches %}
-            {% include "match_partials/upcoming_match_table.html" %}
-          {% endwith %}
+          {% set matches = matches_upcoming %}
+          {% include "match_partials/upcoming_match_table.html" %}
         </div>
         {% endif %}
         {% if matches_recent %}
         <div class="col-sm-6">
           <h4>Recent Matches</h4>
-          {% with matches_recent as matches %}
-            {% include "match_partials/recent_match_table.html" %}
-          {% endwith %}
+          {% set matches = matches_recent %}
+          {% include "match_partials/recent_match_table.html" %}
         </div>
         {% endif %}
         <div class="clearfix"></div>
@@ -130,7 +128,7 @@
                 {% for team, opr in oprs %}
                 <tr>
                   <td><a href="/team/{{ team }}/{{ event.year }}">{{ team }}</a></td>
-                  <td>{{ opr|floatformat:2 }}</td>
+                  <td>{{ opr|floatformat(2) }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -157,7 +155,7 @@
             {% for opr,opr_team in oprs %}
             <tr>
               <td><a href="/team/{{ opr_team }}">{{ opr_team }}</a></td>
-              <td>{{ opr|floatformat:2 }}</td>
+              <td>{{ opr|floatformat(2) }}</td>
             </tr>
             {% endfor %}
           </table>
@@ -168,7 +166,7 @@
       <div class="row">
         <div class="col-sm-12">
           <p><a class="btn btn-default" href="/contact"><span class="glyphicon glyphicon-upload"></span> Tell us about YouTube videos</a></p>
-          <p><a class="btn btn-default" href="http://www.thebluealliance.com/event/{{ event.key_name }}/feed"><span class="glyphicon glyphicon-barcode"></span> Matches in RSS</a></p>
+          <p><a class="btn btn-default" href="/event/{{ event.key_name }}/feed"><span class="glyphicon glyphicon-barcode"></span> Matches in RSS</a></p>
         </div>
       </div>
     </div>
@@ -189,11 +187,11 @@
             </thead>
             <tbody>
               {% for row in event.rankings %}
-              {% if not forloop.first %}
+              {% if not loop.first %}
               <tr>
                 {% for element in row %}
                 <td>
-                  {% if forloop.counter == 2 %}
+                  {% if loop.index == 2 %}
                     <a href="/team/{{ element }}/{{event.year}}">{{ element }}</a>
                   {% else %}
                     {{ element }}
@@ -268,7 +266,7 @@
             </thead>
             <tbody>
               {% for award in awards %}
-              {% for team_number, awardees in award.recipient_dict.items %}
+              {% for team_number, awardees in award.recipient_dict.items() %}
               {% for awardee in awardees %}
               <tr>
                 <td>{{award.name_str}}</td>

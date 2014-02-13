@@ -14,9 +14,8 @@
   <hr>
   <div class="row">
     <div class="col-sm-12">
-      {% with year|slugify|add:" Season" as dropdown_label %}
+      {% set dropdown_label = "{} Season".format(year) %}
       {% include "team_partials/team_year_dropdown.html" %}
-      {% endwith %}
 
       {% if year_wlt %}
         <p>Overall, team {{team.team_number}} was <strong>{{year_wlt.win}}-{{year_wlt.loss}}-{{year_wlt.tie}}</strong> in {{year}}.</p>
@@ -38,7 +37,7 @@
         <h3><a href="/event/{{ comp.event.key_name }}">{{ comp.event.name }}</a></h3>
         <p>
           {% if comp.event.location %}<span class="glyphicon glyphicon-map-marker"></span> in <a href="http://maps.google.com/maps?q={{ comp.event.location }}">{{ comp.event.location }}</a><br />{% endif %}
-          {% if comp.event.start_date %}<span class="glyphicon glyphicon-calendar"></span> {{ comp.event.start_date|date:"M jS" }}{% if comp.event.start_date != comp.event.end_date %} - {{ comp.event.end_date|date:"M jS" }}{% endif %}{{ comp.event.end_date|date:", Y" }}{% endif %}
+          {% if comp.event.start_date %}<span class="glyphicon glyphicon-calendar"></span> {{ comp.event.start_date|date("%b %d") }}{% if comp.event.start_date != comp.event.end_date %} - {{ comp.event.end_date|date("%b %d") }}{% endif %}{{ comp.event.end_date|date(", %Y") }}{% endif %}
         </p>
 
         {% if comp.wlt or comp.rank or comp.awards %}
@@ -53,7 +52,7 @@
           {% if comp.rank or comp.wlt %}and{% endif %} won the following awards:
           <ul>
           {% for award in comp.awards %}
-          {% for team_number, awardees in award.recipient_dict.items %}
+          {% for team_number, awardees in award.recipient_dict.items() %}
           {% if team_number == team.team_number %}
             {% for awardee in awardees %}
             <li>{{ award.name_str }}{% if awardee %} ({{ awardee }}){% endif %}</li>
@@ -68,19 +67,18 @@
       </div>
       <div class="col-sm-8" style="margin-top: 1em">
         {% if comp.matches.num %}
-          {% with comp.matches as matches %}
-            {% include "match_partials/full_match_table.html" %}
-          {% endwith %}
+          {% set matches = comp.matches %}
+          {% include "match_partials/full_match_table.html" %}
         {% else %}
           {% if comp.event.past %}
             <p class="muted">No matches played.</p>
           {% else %}
-            <p class="muted">No matches yet. Check back after {{ comp.event.start_date|date:"M d, Y" }}.</p>
+            <p class="muted">No matches yet. Check back after {{ comp.event.start_date|date("%b %d, %Y") }}.</p>
           {% endif %}
         {% endif %}
       </div>
     </div>
-    {% if not forloop.last %}<hr>{% endif %}
+    {% if not loop.last %}<hr>{% endif %}
   {% endfor %}
 </div>
 {% endblock %}

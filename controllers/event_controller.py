@@ -3,7 +3,7 @@ import os
 
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from base_controller import CacheableHandler
 from helpers.match_helper import MatchHelper
@@ -61,8 +61,7 @@ class EventList(CacheableHandler):
             "week_events": week_events,
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/event_list.html')
-        return template.render(path, template_values)
+        return template.render('event_list.html', template_values)
 
     def memcacheFlush(self):
         year = datetime.datetime.now().year
@@ -150,8 +149,7 @@ class EventDetail(CacheableHandler):
         if event.within_a_day:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/event_details.html')
-        return template.render(path, template_values)
+        return template.render('event_details.html', template_values)
 
 
 class EventRss(CacheableHandler):
@@ -184,6 +182,5 @@ class EventRss(CacheableHandler):
             "datetime": datetime.datetime.now()
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/event_rss.xml')
         self.response.headers['content-type'] = 'application/xml; charset=UTF-8'
-        return template.render(path, template_values)
+        return template.render('event_rss.xml', template_values)

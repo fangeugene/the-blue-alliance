@@ -1,6 +1,6 @@
 import os
 
-from google.appengine.ext.webapp import template
+from common import template
 
 from base_controller import CacheableHandler
 

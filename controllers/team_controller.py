@@ -3,7 +3,7 @@ import os
 import logging
 
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from base_controller import CacheableHandler
 from helpers.event_helper import EventHelper
@@ -74,8 +74,7 @@ class TeamList(CacheableHandler):
             "current_page": page
         }
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/team_list.html')
-        return template.render(path, template_values)
+        return template.render('team_list.html', template_values)
 
 # The view of a single Team.
 
@@ -184,8 +183,7 @@ class TeamDetail(CacheableHandler):
         if short_cache:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/team_details.html')
-        return template.render(path, template_values)
+        return template.render('team_details.html', template_values)
 
 
 class TeamHistory(CacheableHandler):
@@ -269,5 +267,4 @@ class TeamHistory(CacheableHandler):
         if short_cache:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        path = os.path.join(os.path.dirname(__file__), '../templates/team_history.html')
-        return template.render(path, template_values)
+        return template.render('team_history.html', template_values)

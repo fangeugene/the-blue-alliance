@@ -3,7 +3,7 @@ import urllib2
 import json
 
 from google.appengine.api import memcache
-from google.appengine.ext.webapp import template
+from common import template
 
 from base_controller import CacheableHandler
 

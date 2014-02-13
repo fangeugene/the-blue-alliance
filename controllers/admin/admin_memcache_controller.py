@@ -1,7 +1,7 @@
 import os
 
 from google.appengine.api import memcache
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from helpers.memcache.memcache_webcast_flusher import MemcacheWebcastFlusher

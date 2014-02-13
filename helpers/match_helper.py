@@ -100,7 +100,7 @@ class MatchHelper(object):
     def generateBracket(self, matches):
         results = {}
         for match in matches:
-            set_number = str(match.set_number)
+            set_number = match.set_number
 
             if set_number not in results:
                 red_alliance = []

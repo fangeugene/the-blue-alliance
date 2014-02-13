@@ -1,7 +1,7 @@
 import os
 
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from base_controller import CacheableHandler
 

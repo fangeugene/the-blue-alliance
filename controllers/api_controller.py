@@ -8,7 +8,7 @@ from datetime import datetime
 
 from google.appengine.api import memcache, urlfetch
 from google.appengine.ext import deferred, ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 
 import tba_config

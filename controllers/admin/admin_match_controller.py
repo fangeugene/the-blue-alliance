@@ -3,7 +3,7 @@ import logging
 import os
 
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from datafeeds.offseason_matches_parser import OffseasonMatchesParser

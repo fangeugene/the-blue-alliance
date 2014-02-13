@@ -4,7 +4,7 @@ import os
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from models.account import Account

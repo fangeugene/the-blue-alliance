@@ -18,9 +18,6 @@ from controllers.suggestions.suggest_match_video_controller import SuggestMatchV
 from controllers.suggestions.suggest_event_webcast_controller import SuggestEventWebcastController
 from controllers.team_controller import TeamList, TeamDetail, TeamHistory
 
-from google.appengine.ext.webapp import template
-template.register_template_library('common.my_filters')
-
 landing_handler = {tba_config.KICKOFF: MainKickoffHandler,
                    tba_config.BUILDSEASON: MainBuildseasonHandler,
                    tba_config.COMPETITIONSEASON: MainCompetitionseasonHandler,

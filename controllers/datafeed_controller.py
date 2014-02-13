@@ -7,7 +7,7 @@ import json
 from google.appengine.api import taskqueue
 from google.appengine.ext import ndb
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
+from common import template
 
 from consts.event_type import EventType
 

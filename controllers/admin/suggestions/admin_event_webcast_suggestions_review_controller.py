@@ -3,7 +3,7 @@ import os
 import logging
 
 from google.appengine.ext import ndb
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from helpers.event.event_webcast_adder import EventWebcastAdder

@@ -48,7 +48,7 @@
             </div>
           </form>
           <br>
-          <p><a class="btn btn-primary" href="http://www.youtube.com/results?search_query={{match.verbose_name|urlencode}}+{{event.year|urlencode}}+{{event.name|urlencode}}" target="_blank"><span class="glyphicon glyphicon-search"></span> Search YouTube :: {{match.verbose_name}} - {{event.year}} {{event.name}}</a></p>
+          <p><a class="btn btn-primary" href="http://www.youtube.com/results?search_query={{match.verbose_name|escapeurl}}+{{event.year|escapeurl}}+{{event.name|escapeurl}}" target="_blank"><span class="glyphicon glyphicon-search"></span> Search YouTube :: {{match.verbose_name}} - {{event.year}} {{event.name}}</a></p>
         </div>
       </div>
     </div>

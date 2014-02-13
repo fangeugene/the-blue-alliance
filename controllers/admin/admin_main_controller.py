@@ -4,7 +4,7 @@ import re
 import logging
 
 from google.appengine.api import memcache
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from models.account import Account

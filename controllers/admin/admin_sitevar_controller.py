@@ -1,7 +1,7 @@
 import os
 import logging
 
-from google.appengine.ext.webapp import template
+from common import template
 
 from controllers.base_controller import LoggedInHandler
 from models.sitevar import Sitevar
