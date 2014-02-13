@@ -3,7 +3,7 @@ import os
 
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from base_controller import CacheableHandler
 from helpers.match_helper import MatchHelper
@@ -61,7 +61,7 @@ class EventList(CacheableHandler):
             "week_events": week_events,
         }
 
-        return template.render('event_list.html', template_values)
+        return jinja2_engine.render('event_list.html', template_values)
 
     def memcacheFlush(self):
         year = datetime.datetime.now().year
@@ -149,7 +149,7 @@ class EventDetail(CacheableHandler):
         if event.within_a_day:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        return template.render('event_details.html', template_values)
+        return jinja2_engine.render('event_details.html', template_values)
 
 
 class EventRss(CacheableHandler):
@@ -183,4 +183,4 @@ class EventRss(CacheableHandler):
         }
 
         self.response.headers['content-type'] = 'application/xml; charset=UTF-8'
-        return template.render('event_rss.xml', template_values)
+        return jinja2_engine.render('event_rss.xml', template_values)

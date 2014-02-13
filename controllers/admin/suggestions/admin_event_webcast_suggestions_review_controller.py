@@ -3,7 +3,7 @@ import os
 import logging
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from helpers.event.event_webcast_adder import EventWebcastAdder
@@ -32,7 +32,7 @@ class AdminEventWebcastSuggestionsReviewController(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../../templates/admin/event_webcast_suggestion_list.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self):
         self._require_admin()

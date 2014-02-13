@@ -8,7 +8,7 @@ from google.appengine.api import taskqueue
 from google.appengine.ext import ndb
 
 from google.appengine.ext import webapp
-from common import template
+from template_engine import jinja2_engine
 
 from helpers.event_helper import EventHelper
 
@@ -42,7 +42,7 @@ class EventShortNameCalcEnqueue(webapp.RequestHandler):
                 method='GET')
 
         template_values = {'events': events}
-        self.response.out.write(template.render('math/event_short_name_calc_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/event_short_name_calc_enqueue.html', template_values))
 
 
 class EventShortNameCalcDo(webapp.RequestHandler):
@@ -55,7 +55,7 @@ class EventShortNameCalcDo(webapp.RequestHandler):
         event.put()
 
         template_values = {'event': event}
-        self.response.out.write(template.render('math/event_short_name_calc_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/event_short_name_calc_do.html', template_values))
 
 
 class EventTeamRepairDo(webapp.RequestHandler):
@@ -77,7 +77,7 @@ class EventTeamRepairDo(webapp.RequestHandler):
             'event_teams': event_teams,
         }
 
-        self.response.out.write(template.render('math/eventteam_repair_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/eventteam_repair_do.html', template_values))
 
 
 class EventTeamUpdate(webapp.RequestHandler):
@@ -102,7 +102,7 @@ class EventTeamUpdate(webapp.RequestHandler):
             'deleted_event_teams_keys': et_keys_to_del
         }
 
-        self.response.out.write(template.render('math/eventteam_update_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/eventteam_update_do.html', template_values))
 
 
 class EventTeamUpdateEnqueue(webapp.RequestHandler):
@@ -124,7 +124,7 @@ class EventTeamUpdateEnqueue(webapp.RequestHandler):
             'event_keys': event_keys,
         }
 
-        self.response.out.write(template.render('math/eventteam_update_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/eventteam_update_enqueue.html', template_values))
 
 
 class EventMatchstatsDo(webapp.RequestHandler):
@@ -144,7 +144,7 @@ class EventMatchstatsDo(webapp.RequestHandler):
             'matchstats_dict': matchstats_dict,
         }
 
-        self.response.out.write(template.render('math/event_matchstats_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/event_matchstats_do.html', template_values))
 
     def post(self):
         self.get()
@@ -173,7 +173,7 @@ class EventMatchstatsEnqueue(webapp.RequestHandler):
             'year': when
         }
 
-        self.response.out.write(template.render('math/event_matchstats_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/event_matchstats_enqueue.html', template_values))
 
 
 class FinalMatchesRepairDo(webapp.RequestHandler):
@@ -212,7 +212,7 @@ class FinalMatchesRepairDo(webapp.RequestHandler):
         template_values = {'deleted_keys': deleted_keys,
                            'new_matches': matches_to_repair}
 
-        self.response.out.write(template.render('math/final_matches_repair_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/final_matches_repair_do.html', template_values))
 
 
 class YearInsightsEnqueue(webapp.RequestHandler):
@@ -229,7 +229,7 @@ class YearInsightsEnqueue(webapp.RequestHandler):
             'year': year
         }
 
-        self.response.out.write(template.render('math/year_insights_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/year_insights_enqueue.html', template_values))
 
 
 class YearInsightsDo(webapp.RequestHandler):
@@ -256,7 +256,7 @@ class YearInsightsDo(webapp.RequestHandler):
             'kind': kind,
         }
 
-        self.response.out.write(template.render('math/year_insights_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/year_insights_do.html', template_values))
 
     def post(self):
         self.get()
@@ -275,7 +275,7 @@ class OverallInsightsEnqueue(webapp.RequestHandler):
             'kind': kind,
         }
 
-        self.response.out.write(template.render('math/overall_insights_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/overall_insights_enqueue.html', template_values))
 
 
 class OverallInsightsDo(webapp.RequestHandler):
@@ -299,7 +299,7 @@ class OverallInsightsDo(webapp.RequestHandler):
             'kind': kind,
         }
 
-        self.response.out.write(template.render('math/overall_insights_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/overall_insights_do.html', template_values))
 
     def post(self):
         self.get()
@@ -312,7 +312,7 @@ class TypeaheadCalcEnqueue(webapp.RequestHandler):
     def get(self):
         taskqueue.add(url='/tasks/math/do/typeaheadcalc', method='GET')
         template_values = {}
-        self.response.out.write(template.render('math/typeaheadcalc_enqueue.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/typeaheadcalc_enqueue.html', template_values))
 
 
 class TypeaheadCalcDo(webapp.RequestHandler):
@@ -381,4 +381,4 @@ class TypeaheadCalcDo(webapp.RequestHandler):
         ndb.delete_multi(keys_to_delete)
 
         template_values = {'results': results}
-        self.response.out.write(template.render('math/typeaheadcalc_do.html', template_values))
+        self.response.out.write(jinja2_engine.render('math/typeaheadcalc_do.html', template_values))

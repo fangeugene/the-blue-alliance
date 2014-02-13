@@ -3,7 +3,7 @@ import logging
 import os
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from datafeeds.datafeed_usfirst_offseason import DatafeedUsfirstOffseason
@@ -38,7 +38,7 @@ class AdminOffseasonScraperController(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/offseasons.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self):
         self._require_admin()

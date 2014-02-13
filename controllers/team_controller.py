@@ -3,7 +3,7 @@ import os
 import logging
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from base_controller import CacheableHandler
 from helpers.event_helper import EventHelper
@@ -74,7 +74,7 @@ class TeamList(CacheableHandler):
             "current_page": page
         }
 
-        return template.render('team_list.html', template_values)
+        return jinja2_engine.render('team_list.html', template_values)
 
 # The view of a single Team.
 
@@ -183,7 +183,7 @@ class TeamDetail(CacheableHandler):
         if short_cache:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        return template.render('team_details.html', template_values)
+        return jinja2_engine.render('team_details.html', template_values)
 
 
 class TeamHistory(CacheableHandler):
@@ -267,4 +267,4 @@ class TeamHistory(CacheableHandler):
         if short_cache:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        return template.render('team_history.html', template_values)
+        return jinja2_engine.render('team_history.html', template_values)

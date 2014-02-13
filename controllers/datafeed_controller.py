@@ -7,7 +7,7 @@ import json
 from google.appengine.api import taskqueue
 from google.appengine.ext import ndb
 from google.appengine.ext import webapp
-from common import template
+from template_engine import jinja2_engine
 
 from consts.event_type import EventType
 
@@ -52,7 +52,7 @@ class FmsEventListGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/fms_event_list_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class FmsTeamListGet(webapp.RequestHandler):
@@ -70,7 +70,7 @@ class FmsTeamListGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/fms_team_list_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class TbaVideosEnqueue(webapp.RequestHandler):
@@ -90,7 +90,7 @@ class TbaVideosEnqueue(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/tba_videos_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class TbaVideosGet(webapp.RequestHandler):
@@ -122,7 +122,7 @@ class TbaVideosGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/tba_videos_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstEventDetailsEnqueue(webapp.RequestHandler):
@@ -145,7 +145,7 @@ class UsfirstEventDetailsEnqueue(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_events_details_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstEventDetailsGet(webapp.RequestHandler):
@@ -203,7 +203,7 @@ class UsfirstEventDetailsGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_event_details_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstAwardsEnqueue(webapp.RequestHandler):
@@ -227,7 +227,7 @@ class UsfirstAwardsEnqueue(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_awards_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstAwardsGet(webapp.RequestHandler):
@@ -265,7 +265,7 @@ class UsfirstAwardsGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_awards_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstEventListGet(webapp.RequestHandler):
@@ -289,7 +289,7 @@ class UsfirstEventListGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_event_list_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstMatchesEnqueue(webapp.RequestHandler):
@@ -314,7 +314,7 @@ class UsfirstMatchesEnqueue(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_matches_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstMatchesGet(webapp.RequestHandler):
@@ -342,7 +342,7 @@ class UsfirstMatchesGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_matches_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstEventRankingsEnqueue(webapp.RequestHandler):
@@ -367,7 +367,7 @@ class UsfirstEventRankingsEnqueue(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_event_rankings_enqueue.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstEventRankingsGet(webapp.RequestHandler):
@@ -389,7 +389,7 @@ class UsfirstEventRankingsGet(webapp.RequestHandler):
                            'event_name': event.key_name}
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_event_rankings_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstTeamDetailsEnqueue(webapp.RequestHandler):
@@ -470,7 +470,7 @@ class UsfirstTeamDetailsGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_team_details_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstPre2003TeamEventsEnqueue(webapp.RequestHandler):
@@ -540,7 +540,7 @@ class UsfirstPre2003TeamEventsGet(webapp.RequestHandler):
                            'new_eids': new_eids}
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_team_events_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class UsfirstTeamsTpidsGet(webapp.RequestHandler):
@@ -569,7 +569,7 @@ class UsfirstTeamsTpidsGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/usfirst_teams_tpids.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class OffseasonMatchesGet(webapp.RequestHandler):
@@ -589,7 +589,7 @@ class OffseasonMatchesGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/offseason_matches_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class TwitterFrcfmsMatchesGet(webapp.RequestHandler):
@@ -607,4 +607,4 @@ class TwitterFrcfmsMatchesGet(webapp.RequestHandler):
         }
 
         path = os.path.join(os.path.dirname(__file__), '../templates/datafeeds/twitter_frcfms_matches_get.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))

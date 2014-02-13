@@ -4,7 +4,7 @@ import re
 import logging
 
 from google.appengine.api import memcache
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from models.account import Account
@@ -52,16 +52,16 @@ class AdminMain(LoggedInHandler):
             logging.warning("version_info.json parsing failed: %s" % e)
             pass
 
-        self.response.out.write(template.render('admin/index.html', self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/index.html', self.template_values))
 
 
 class AdminDebugHandler(LoggedInHandler):
     def get(self):
         self._require_admin()
-        self.response.out.write(template.render('admin/debug.html', self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/debug.html', self.template_values))
 
 
 class AdminTasksHandler(LoggedInHandler):
     def get(self):
         self._require_admin()
-        self.response.out.write(template.render('admin/tasks.html', self.template_values))
+        self.response.out.write(jinja2_engine.render('admin/tasks.html', self.template_values))

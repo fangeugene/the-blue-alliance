@@ -3,7 +3,7 @@ import logging
 import os
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from datafeeds.csv_awards_parser import CSVAwardsParser
@@ -26,7 +26,7 @@ class AdminAwardDashboard(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/award_dashboard.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminAwardAdd(LoggedInHandler):
@@ -69,7 +69,7 @@ class AdminAwardAdd(LoggedInHandler):
             'awards': new_awards,
         }
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/awards_add.html')
-        self.response.out.write(template.render(path, template_values))
+        self.response.out.write(jinja2_engine.render(path, template_values))
 
 
 class AdminAwardEdit(LoggedInHandler):
@@ -85,7 +85,7 @@ class AdminAwardEdit(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/award_edit.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self, award_key):
         self._require_admin()

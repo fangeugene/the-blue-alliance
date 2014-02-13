@@ -1,6 +1,6 @@
 import os
 
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from models.event import Event
@@ -26,7 +26,7 @@ class SuggestEventWebcastController(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/suggest_event_webcast.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self):
         self._require_login()

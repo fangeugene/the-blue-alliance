@@ -1,7 +1,7 @@
 import os
 import logging
 
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from models.sitevar import Sitevar
@@ -20,7 +20,7 @@ class AdminSitevarList(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_list.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminSitevarCreate(LoggedInHandler):
@@ -31,7 +31,7 @@ class AdminSitevarCreate(LoggedInHandler):
         self._require_admin()
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_create.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminSitevarEdit(LoggedInHandler):
@@ -50,7 +50,7 @@ class AdminSitevarEdit(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/sitevar_edit.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self, sitevar_key):
         self._require_admin()

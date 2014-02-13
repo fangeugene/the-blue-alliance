@@ -1,6 +1,6 @@
 import os
 
-from common import template
+from template_engine import jinja2_engine
 
 from base_controller import CacheableHandler
 from models.event import Event
@@ -48,4 +48,4 @@ class MatchDetail(CacheableHandler):
         if event.within_a_day:
             self._cache_expiration = self.SHORT_CACHE_EXPIRATION
 
-        return template.render('match_details.html', template_values)
+        return jinja2_engine.render('match_details.html', template_values)

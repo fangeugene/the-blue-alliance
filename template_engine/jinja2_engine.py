@@ -1,7 +1,7 @@
 import jinja2
 import os
 
-from common import jinja2_filters
+from template_engine import jinja2_filters
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), '../templates')),

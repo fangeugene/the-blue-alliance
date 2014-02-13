@@ -8,7 +8,7 @@ from datetime import datetime
 
 from google.appengine.api import memcache, urlfetch
 from google.appengine.ext import deferred, ndb
-from common import template
+from template_engine import jinja2_engine
 
 
 import tba_config
@@ -274,7 +274,7 @@ class CsvTeamsAll(MainApiHandler):
             }
 
             path = os.path.join(os.path.dirname(__file__), '../templates/api/csv_teams_all.csv')
-            output = template.render(path, template_values)
+            output = jinja2_engine.render(path, template_values)
             if tba_config.CONFIG["memcache"]:
                 memcache.set(memcache_key, output, 86400)
 

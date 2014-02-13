@@ -4,7 +4,7 @@ import os
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from models.account import Account
@@ -23,7 +23,7 @@ class AdminUserList(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_list.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminUserDetail(LoggedInHandler):
@@ -39,7 +39,7 @@ class AdminUserDetail(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_details.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminUserEdit(LoggedInHandler):
@@ -54,7 +54,7 @@ class AdminUserEdit(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/user_edit.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self, user_id):
         self._require_admin()

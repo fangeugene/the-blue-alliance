@@ -1,7 +1,7 @@
 import os
 
 from google.appengine.api import memcache
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from helpers.memcache.memcache_webcast_flusher import MemcacheWebcastFlusher
@@ -31,7 +31,7 @@ class AdminMemcacheMain(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/memcache_index.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def get(self):
         self._require_admin()
@@ -41,4 +41,4 @@ class AdminMemcacheMain(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/memcache_index.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))

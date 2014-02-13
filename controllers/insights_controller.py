@@ -1,7 +1,7 @@
 import os
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from base_controller import CacheableHandler
 
@@ -31,7 +31,7 @@ class InsightsOverview(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        return template.render('insights.html', template_values)
+        return jinja2_engine.render('insights.html', template_values)
 
 
 class InsightsDetail(CacheableHandler):
@@ -67,4 +67,4 @@ class InsightsDetail(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        return template.render('insights_details.html', template_values)
+        return jinja2_engine.render('insights_details.html', template_values)

@@ -1,6 +1,6 @@
 import os
 
-from common import template
+from template_engine import jinja2_engine
 
 from base_controller import LoggedInHandler
 
@@ -15,7 +15,7 @@ class AccountOverview(LoggedInHandler):
             self.redirect('/account/register')
             return None
         path = os.path.join(os.path.dirname(__file__), '../templates/account_overview.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AccountEdit(LoggedInHandler):
@@ -26,7 +26,7 @@ class AccountEdit(LoggedInHandler):
             return None
 
         path = os.path.join(os.path.dirname(__file__), '../templates/account_edit.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self):
         self._require_login('/account/edit')
@@ -55,7 +55,7 @@ class AccountRegister(LoggedInHandler):
             return None
 
         path = os.path.join(os.path.dirname(__file__), '../templates/account_register.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self):
         self._require_login('/account/register')

@@ -4,7 +4,7 @@ import logging
 import os
 
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 from controllers.base_controller import LoggedInHandler
 from datafeeds.csv_teams_parser import CSVTeamsParser
@@ -78,7 +78,7 @@ class AdminEventCreate(LoggedInHandler):
         self._require_admin()
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_create.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminEventCreateTest(LoggedInHandler):
@@ -113,7 +113,7 @@ class AdminEventDelete(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_delete.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self, event_key_id):
         self._require_admin()
@@ -151,7 +151,7 @@ class AdminEventDetail(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_details.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
 
 class AdminEventEdit(LoggedInHandler):
@@ -168,7 +168,7 @@ class AdminEventEdit(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_edit.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))
 
     def post(self, event_key):
         self._require_admin()
@@ -218,4 +218,4 @@ class AdminEventList(LoggedInHandler):
         })
 
         path = os.path.join(os.path.dirname(__file__), '../../templates/admin/event_list.html')
-        self.response.out.write(template.render(path, self.template_values))
+        self.response.out.write(jinja2_engine.render(path, self.template_values))

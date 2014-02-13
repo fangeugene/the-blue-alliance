@@ -5,7 +5,7 @@ import webapp2
 
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
-from common import template
+from template_engine import jinja2_engine
 
 import tba_config
 
@@ -23,7 +23,7 @@ def render_static(page):
     html = memcache.get(memcache_key)
 
     if html is None:
-        html = template.render('{}.html'.format(page), {})
+        html = jinja2_engine.render('{}.html'.format(page), {})
         if tba_config.CONFIG["memcache"]:
             memcache.set(memcache_key, html, 86400)
 
@@ -43,7 +43,7 @@ class MainKickoffHandler(CacheableHandler):
 
         is_kickoff = datetime.datetime.now() >= kickoff_datetime_est - datetime.timedelta(days=1)  # turn on 1 day before
 
-        return template.render('index_kickoff.html', {'is_kickoff': is_kickoff,
+        return jinja2_engine.render('index_kickoff.html', {'is_kickoff': is_kickoff,
                                                       'kickoff_datetime_est': kickoff_datetime_est,
                                                       'kickoff_datetime_utc': kickoff_datetime_utc,
                                                       })
@@ -60,7 +60,7 @@ class MainBuildseasonHandler(CacheableHandler):
         endbuild_datetime_est = datetime.datetime(2014, 2, 18, 0, 0)
         endbuild_datetime_utc = endbuild_datetime_est + datetime.timedelta(hours=5)
 
-        return template.render('index_buildseason.html', {'endbuild_datetime_est': endbuild_datetime_est,
+        return jinja2_engine.render('index_buildseason.html', {'endbuild_datetime_est': endbuild_datetime_est,
                                                           'endbuild_datetime_utc': endbuild_datetime_utc
                                                           })
 
@@ -78,7 +78,7 @@ class MainCompetitionseasonHandler(CacheableHandler):
             "events": week_events,
         }
 
-        return template.render('index_competitionseason.html', template_values)
+        return jinja2_engine.render('index_competitionseason.html', template_values)
 
 
 class MainInsightsHandler(CacheableHandler):
@@ -99,7 +99,7 @@ class MainInsightsHandler(CacheableHandler):
             if insight:
                 template_values[insight.name] = insight
 
-        return template.render('index_insights.html', template_values)
+        return jinja2_engine.render('index_insights.html', template_values)
 
 
 class MainOffseasonHandler(CacheableHandler):
@@ -115,7 +115,7 @@ class MainOffseasonHandler(CacheableHandler):
             "events": week_events,
         }
 
-        return template.render('index_offseason.html', template_values)
+        return jinja2_engine.render('index_offseason.html', template_values)
 
 
 class ContactHandler(CacheableHandler):
@@ -126,7 +126,7 @@ class ContactHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('contact.html', {})
+        return jinja2_engine.render('contact.html', {})
 
 
 class HashtagsHandler(CacheableHandler):
@@ -137,7 +137,7 @@ class HashtagsHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('hashtags.html', {})
+        return jinja2_engine.render('hashtags.html', {})
 
 
 class AboutHandler(CacheableHandler):
@@ -148,7 +148,7 @@ class AboutHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('about.html', {})
+        return jinja2_engine.render('about.html', {})
 
 
 class ThanksHandler(CacheableHandler):
@@ -159,7 +159,7 @@ class ThanksHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('thanks.html', {})
+        return jinja2_engine.render('thanks.html', {})
 
 
 class OprHandler(CacheableHandler):
@@ -170,7 +170,7 @@ class OprHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('opr.html', {})
+        return jinja2_engine.render('opr.html', {})
 
 
 class SearchHandler(webapp2.RequestHandler):
@@ -235,7 +235,7 @@ class GamedayHandler(CacheableHandler):
                            'ongoing_events': ongoing_events,
                            'ongoing_events_w_webcasts': ongoing_events_w_webcasts}
 
-        return template.render('gameday.html', template_values)
+        return jinja2_engine.render('gameday.html', template_values)
 
 
 class PageNotFoundHandler(webapp2.RequestHandler):
@@ -259,7 +259,7 @@ class WebcastsHandler(CacheableHandler):
             'events': events,
         }
 
-        return template.render('webcasts.html', template_values)
+        return jinja2_engine.render('webcasts.html', template_values)
 
 
 class RecordHandler(CacheableHandler):
@@ -270,7 +270,7 @@ class RecordHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('record.html', {})
+        return jinja2_engine.render('record.html', {})
 
 
 class ApiDocumentationHandler(CacheableHandler):
@@ -281,4 +281,4 @@ class ApiDocumentationHandler(CacheableHandler):
         self._cache_version = 1
 
     def _render(self, *args, **kw):
-        return template.render('apidocs.html', {})
+        return jinja2_engine.render('apidocs.html', {})
