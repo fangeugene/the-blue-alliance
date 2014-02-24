@@ -24,38 +24,11 @@
     {% include "team_partials/team_social_media.html" %}
   </div>
   <div class="col-sm-5">
-  {% if current_event %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        {% if current_event.webcast%}
-          <div class="hidden-xs pull-right">
-            <a class="btn btn-success" href="{{current_event.gameday_url}}" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> Watch now</a>
-          </div>
-        {% endif %}
-        <h3 class="panel-title">
-          Currently competing at:<br>
-          <a href="/event/{{ current_event.key_name }}"><strong>{{ current_event.name }}</strong></a>
-        </h3>
-      </div>
-      <div class="clearfix"></div>
-      <div class="panel-body">
-      {% if matches_upcoming %}
-        <h4>Upcoming Matches</h4>
-        {% with matches_upcoming as matches %}
-          {% include "match_partials/upcoming_match_table.html" %}
-        {% endwith %}
-      {% else %}
-        No upcoming matches.
-      {% endif %}
-      </div>
-    </div>
+  {% if medias_by_slugname.cdphotothread %}
+    {% include "media_partials/image_carousel_partial.html" %}
   {% else %}
-    {% if medias_by_slugname.cdphotothread %}
-      {% include "media_partials/image_carousel_partial.html" %}
-    {% else %}
-      {% if year %}
-        <a class="btn btn-lg btn-success btn-block" href="/suggest/team/media?team_key={{team.key_name}}&year={{year}}" target="_blank"><span class="glyphicon glyphicon-plus"></span> Add robot image!</a>
-      {% endif %}
+    {% if year %}
+      <a class="btn btn-lg btn-success btn-block" href="/suggest/team/media?team_key={{team.key_name}}&year={{year}}" target="_blank"><span class="glyphicon glyphicon-plus"></span> Add robot image!</a>
     {% endif %}
   {% endif %}
   </div>
