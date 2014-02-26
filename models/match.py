@@ -24,6 +24,13 @@ class Match(ndb.Model):
         "sf": "Semis",
         "f": "Finals",
     }
+    COMP_LEVELS_PLAY_ORDER = {
+        'qm': 1,
+        'ef': 2,
+        'qf': 3,
+        'sf': 4,
+        'f': 5,
+    }
 
     FRC_GAMES = [
         "frc_2012_rebr",
@@ -145,7 +152,7 @@ class Match(ndb.Model):
     def has_been_played(self):
         """If there are scores, it's been played"""
         for alliance in self.alliances:
-            if (self.alliances[alliance]["score"] == None) or \
+            if (self.alliances[alliance]["score"] is None) or \
             (self.alliances[alliance]["score"] == -1):
                 return False
         return True
@@ -156,6 +163,15 @@ class Match(ndb.Model):
             return "%s %s" % (self.COMP_LEVELS_VERBOSE[self.comp_level], self.match_number)
         else:
             return "%s %s Match %s" % (self.COMP_LEVELS_VERBOSE[self.comp_level], self.set_number, self.match_number)
+
+    @property
+    def verbose_name_short(self):
+        if self.comp_level == "qm":
+            return "Q %s" % self.match_number
+        elif self.comp_level == "f":
+            return "F %s" % self.match_number
+        else:
+            return "%s %s-%s" % (self.comp_level.upper(), self.set_number, self.match_number)
 
     @property
     def has_video(self):
@@ -174,7 +190,7 @@ class Match(ndb.Model):
 
     @property
     def play_order(self):
-        return self.match_number * 1000 + self.set_number
+        return self.COMP_LEVELS_PLAY_ORDER[self.comp_level] * 1000000 + self.match_number * 1000 + self.set_number
 
     @property
     def name(self):

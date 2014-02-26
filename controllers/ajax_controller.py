@@ -12,6 +12,44 @@ from models.sitevar import Sitevar
 from models.typeahead_entry import TypeaheadEntry
 
 
+class LivedashHandler(CacheableHandler):
+    """
+    """
+    def __init__(self, *args, **kw):
+        super(LivedashHandler, self).__init__(*args, **kw)
+        self._cache_expiration = 60 * 60 * 24
+        self._cache_key = "livedash:{}"
+        self._cache_version = 1
+
+    def get(self, event_key):
+        self._cache_key = self._cache_key.format(event_key)
+        super(LivedashHandler, self).get(event_key)
+
+    def _render(self, event_key):
+#         self.response.headers['Cache-Control'] = 'public, max-age=%d' % self._cache_expiration
+#         self.response.headers['Pragma'] = 'Public'
+        self.response.headers['content-type'] = 'application/json; charset="utf-8"'
+
+        event = Event.get_by_id(event_key)
+
+        matches = []
+        for match in event.matches:
+            matches.append({
+                'name': match.verbose_name_short,
+                'alliances': match.alliances,
+                'order': match.play_order,
+                'time_str': match.time_string,
+            })
+
+        event_dict = {
+            'rankings': event.rankings,
+            'matchstats': event.matchstats,
+            'matches': matches,
+        }
+
+        return json.dumps(event_dict)
+
+
 class TypeaheadHandler(CacheableHandler):
     """
     Currently just returns a list of all teams and events

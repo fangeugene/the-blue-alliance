@@ -1,0 +1,24 @@
+{% if current_event %}
+<script src="http://fb.me/react-with-addons-0.8.0.js"></script>
+<script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+<script type="text/jsx" src="/javascript/tba_js/team_live_dash.js"></script>
+<link rel="stylesheet" href="/css/team_live_dash.css" type="text/css" />
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {% if current_event.webcast%}
+          <div class="hidden-xs pull-right">
+            <a class="btn btn-xs btn-success" href="{{current_event.gameday_url}}" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> Watch now</a>
+          </div>
+        {% endif %}      
+        Currently competing at <a href="/event/{{current_event.key.id}}"><strong>{{current_event.name}}</strong></a>
+      </div>
+      <div class="panel-body">
+        <div id="team-live-dash" data-event-key-name="{{current_event.key.id|safe}}" data-team-key-name="{{team.key.id|safe}}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
