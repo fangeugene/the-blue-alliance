@@ -210,7 +210,7 @@ function test() {
   var newProps = {};
   $.ajax({
     dataType: 'json',
-    url: '/_/livedash/' + $("#team-live-dash").attr('data-event-key-name'),
+    url: '/_/live-event/' + $("#team-live-dash").attr('data-event-key-name') + '/0', // TODO: replace with timestamp
     success: function(event) {
       event.matches.sort(function(match1, match2){return match1.order - match2.order});
       a.setState({event: event});
