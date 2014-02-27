@@ -4,7 +4,7 @@
   //overflow-y: scroll;
 }
 
-.matchrow, #next-matchrow {
+.matchrow, #next-matchrow, #current-matchrow {
   text-align: center;
   margin: 0 0 10px 0;
 }
@@ -13,21 +13,25 @@
   height: 40px;
 }
 
-#next-matchrow, .num-time {
+#next-matchrow, #current-matchrow, .num-time {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
 
-#next-matchrow, .red-score {
+#next-matchrow, #current-matchrow, .red-score {
   border-top-right-radius: 5px;
 }
 
-#next-matchrow, .blue-score {
+#next-matchrow, #current-matchrow, .blue-score {
   border-bottom-right-radius: 5px;
 }
 
 #next-matchrow {
   background: #FFCC00;
+}
+
+#current-matchrow {
+  background: #AAFFAA;
 }
 
 .num-time {

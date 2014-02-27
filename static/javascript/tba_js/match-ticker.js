@@ -56,7 +56,15 @@ var MatchList = React.createClass({
       var redScore = match.alliances.red.score == -1 ? '?' : match.alliances.red.score;
       var blueScore = match.alliances.blue.score == -1 ? '?' : match.alliances.blue.score;
       if (!flag && (match.alliances.red.score == -1 || match.alliances.blue.score == -1)){
-        matchRows.push(<div id="next-matchrow">Next match in 6:04</div>);
+        var nextMatch = this.props.followedTeamMatches[i+1];
+        var nextMatchSeconds = Math.floor((Date.parse(nextMatch.utc) - new Date()) / 1000);
+        if (nextMatchSeconds > 0) {
+          var nextMatchMinutes = Math.floor(nextMatchSeconds / 60);
+          nextMatchSeconds %= 60;
+          matchRows.push(<div id="next-matchrow">Next match in <strong>{nextMatchMinutes} min {nextMatchSeconds} sec</strong></div>);
+        } else {
+          matchRows.push(<div id="current-matchrow">Current match</div>);
+        }
         flag = true;
       }
       var redAlliance = [];
@@ -145,6 +153,9 @@ $(document).ready(function() {
   // Start match updating
   updateMatches();
   setInterval(updateMatches, 10000)
+  
+  // Periodically update countdown
+  setInterval(function() {a.setState()}, 1000);
 
 //  $(window).resize(function(){
 //    fixLayout();
