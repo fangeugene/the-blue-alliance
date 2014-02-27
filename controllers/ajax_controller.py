@@ -1,6 +1,7 @@
 import os
 import urllib2
 import json
+import time
 
 from google.appengine.api import memcache
 from google.appengine.ext.webapp import template
@@ -12,22 +13,26 @@ from models.sitevar import Sitevar
 from models.typeahead_entry import TypeaheadEntry
 
 
-class LivedashHandler(CacheableHandler):
+class LiveEventHandler(CacheableHandler):
     """
+    Returns the necessary details to render live components
+    Uses timestamp for aggressive caching
     """
     def __init__(self, *args, **kw):
-        super(LivedashHandler, self).__init__(*args, **kw)
-        self._cache_expiration = 60 * 60 * 24
-        self._cache_key = "livedash:{}"
+        super(LiveEventHandler, self).__init__(*args, **kw)
+        self._cache_expiration = 60 * 10
+        self._cache_key = "live-event:{}:{}"  # (event_key, timestamp)
         self._cache_version = 1
 
-    def get(self, event_key):
-        self._cache_key = self._cache_key.format(event_key)
-        super(LivedashHandler, self).get(event_key)
+    def get(self, event_key, timestamp):
+        if int(timestamp) > time.time():
+            self.abort(404)
+        self._cache_key = self._cache_key.format(event_key, timestamp)
+        super(LiveEventHandler, self).get(event_key, timestamp)
 
-    def _render(self, event_key):
-#         self.response.headers['Cache-Control'] = 'public, max-age=%d' % self._cache_expiration
-#         self.response.headers['Pragma'] = 'Public'
+    def _render(self, event_key, timestamp):
+        self.response.headers['Cache-Control'] = 'public, max-age=%d' % self._cache_expiration
+        self.response.headers['Pragma'] = 'Public'
         self.response.headers['content-type'] = 'application/json; charset="utf-8"'
 
         event = Event.get_by_id(event_key)
@@ -35,7 +40,7 @@ class LivedashHandler(CacheableHandler):
         matches = []
         for match in event.matches:
             matches.append({
-                'name': match.verbose_name_short,
+                'name': match.short_name,
                 'alliances': match.alliances,
                 'order': match.play_order,
                 'time_str': match.time_string,
