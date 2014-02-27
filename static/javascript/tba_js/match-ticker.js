@@ -1,27 +1,38 @@
 /** @jsx React.DOM */
 
-var LivedashPanel = React.createClass({
+var MatchTicker = React.createClass({
   render: function() {
-    var teamMatches = [];
-    var rankings = [];
-    if (this.state != null) {
-      rankings = this.state.event.rankings;
-      
-      var teamKey = $("#match-ticker").attr('data-team-key-name');
-      for (var i=0; i<this.state.event.matches.length; i++) {
-        var match = this.state.event.matches[i];
-        var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
-        for (var j=0; j<matchTeamKeys.length; j++) {
-          if (teamKey == matchTeamKeys[j]) {
-            teamMatches.push(match);
-            break;
+    var followedTeamMatches = [];
+    if (this.state != null && this.props != null) {
+      // Combine matches from all events
+      for (eventKey in this.state) {
+        for (var i=0; i<this.state[eventKey].matches.length; i++) {
+          var match = this.state[eventKey].matches[i];
+          
+          // Only show matches with times
+          if (match.utc == null) {
+            continue;
+          }
+          
+          // Only show matches of followed teams
+          var matchTeamKeys = match.alliances.red.teams.concat(match.alliances.blue.teams);
+          for (var j=0; j<matchTeamKeys.length; j++) {
+            if (this.props.followedTeams[matchTeamKeys[j]]) {
+              // Add event key to match object
+              match.event_key = eventKey.substring(4).toUpperCase();
+              followedTeamMatches.push(match);
+              break;
+            }
           }
         }
       }
+      
+      // Sort by time
+      followedTeamMatches.sort(function(match1, match2){return Date.parse(match1.utc) - Date.parse(match2.utc)});
     }
     return (
       <div>
-        <MatchList teamMatches={teamMatches} />
+        <MatchList followedTeamMatches={followedTeamMatches} followedTeams={this.props.followedTeams} />
       </div>
     );
   }
@@ -29,29 +40,18 @@ var LivedashPanel = React.createClass({
 
 var MatchList = React.createClass({
   render: function() {
-    var teamNum = $("#match-ticker").attr('data-team-key-name').substring(3);
-
     var headerRow = [<th>Match</th>, <th>Red Alliance</th>, <th>Blue Alliance</th>, <th>Result</th>];
     var matchTableHeader = <tr>{headerRow}</tr>;
 
     var matchRows = [];
     var flag = false;
-    for (var i=0; i<this.props.teamMatches.length; i++) {
-      var match = this.props.teamMatches[i];
-      var alliance;
+    for (var i=0; i<this.props.followedTeamMatches.length; i++) {
+      var match = this.props.followedTeamMatches[i];
       var redTeams = match.alliances.red.teams.map(function (team) {
-        var s = team.substring(3);
-        if (s == teamNum) {
-          alliance = 'red';
-        }
-        return s;
+        return team.substring(3);
       });
       var blueTeams = match.alliances.blue.teams.map(function (team) {
-        var s = team.substring(3);
-        if (s == teamNum) {
-          alliance = 'blue';
-        }
-        return s;
+        return team.substring(3);
       });
       var redScore = match.alliances.red.score == -1 ? '?' : match.alliances.red.score;
       var blueScore = match.alliances.blue.score == -1 ? '?' : match.alliances.blue.score;
@@ -62,7 +62,7 @@ var MatchList = React.createClass({
       var redAlliance = [];
       for (var j=0; j<redTeams.length; j++) {
         var team = redTeams[j];
-        if (team == teamNum) {
+        if (this.props.followedTeams['frc' + team]) {
           redAlliance.push(<div className="team team-highlight">{team}</div>);
         } else {
           redAlliance.push(<div className="team">{team}</div>)
@@ -71,7 +71,7 @@ var MatchList = React.createClass({
       var blueAlliance = [];
       for (var j=0; j<blueTeams.length; j++) {
         var team = blueTeams[j];
-        if (team == teamNum) {
+        if (this.props.followedTeams['frc' + team]) {
           blueAlliance.push(<div className="team team-highlight">{team}</div>);
         } else {
           blueAlliance.push(<div className="team">{team}</div>)
@@ -88,9 +88,10 @@ var MatchList = React.createClass({
       var minute = matchTime.getMinutes();
       var matchTimeStr = hour12 + ':' + ((''+minute).length<2 ? '0' :'')+minute;
       matchTimeStr += hour24 < 12 ? ' AM' : ' PM';
+      var eventMatchName = match.event_key + ' ' + match.name
       matchRows.push(
         <div className="matchrow">
-          <div className="num-time"><strong>CASJ {match.name}</strong><br />{matchTimeStr}</div>
+          <div className="num-time"><strong>{eventMatchName}</strong><br />{matchTimeStr}</div>
           <div className="alliances">
             <div className="red-alliance">{redAlliance}</div>
             <div className="blue-alliance">{blueAlliance}</div>
@@ -112,30 +113,42 @@ var MatchList = React.createClass({
 });
 
 var a = React.renderComponent(
-  <LivedashPanel />,
+  <MatchTicker />,
   document.getElementById('match-ticker')
 );
 
-function test() {
-  var newProps = {};
-  $.ajax({
-    dataType: 'json',
-    url: '/_/live-event/' + $("#match-ticker").attr('data-event-key-name') + '/0', // TODO: replace with timestamp
-    success: function(event) {
-      event.matches.sort(function(match1, match2){return match1.order - match2.order});
-      a.setState({event: event});
-      fixLayout();
-      setTimeout(test, 10000);
-    }
+function updateMatches() {
+  var eventKeys = JSON.parse($("#match-ticker").attr('data-event-key-names'));
+  eventKeys.forEach(function (eventKey) {
+    $.ajax({
+      dataType: 'json',
+      url: '/_/live-event/' + eventKey + '/0', // TODO: replace with timestamp
+      success: function(event) {
+        var newState = {}
+        newState[eventKey] = event;
+        a.setState(newState);
+//        fixLayout();
+      }
+    });
   });
 }
 
-$( document ).ready(function() {
-  test();
+$(document).ready(function() {
+  // Set up following list
+  var followedTeamList = JSON.parse($("#match-ticker").attr('data-team-key-names'));
+  var followedTeams = {}
+  for (var i=0; i<followedTeamList.length; i++) {
+    followedTeams[followedTeamList[i]] = true;
+  }
+  a.setProps({followedTeams: followedTeams});
+  
+  // Start match updating
+  updateMatches();
+  setInterval(updateMatches, 10000)
 
-  $(window).resize(function(){
-    fixLayout();
-  });
+//  $(window).resize(function(){
+//    fixLayout();
+//  });
 });
 
 function fixLayout() {
