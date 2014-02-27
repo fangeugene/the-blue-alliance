@@ -79,10 +79,18 @@ var MatchList = React.createClass({
       }
       redAlliance.push(<div className="clear-both"></div>);
       blueAlliance.push(<div className="clear-both"></div>);
-      var matchTime = match.time_str == null ? '--' : match.time_str;
+      var matchTime = new Date(match.utc);  // Converts UTC to local time
+      var hour24 = matchTime.getHours();
+      var hour12 = (hour24 % 12);
+      if (hour12 == 0) {
+        hour12 = 12;
+      }
+      var minute = matchTime.getMinutes();
+      var matchTimeStr = hour12 + ':' + ((''+minute).length<2 ? '0' :'')+minute;
+      matchTimeStr += hour24 < 12 ? ' AM' : ' PM';
       matchRows.push(
         <div className="matchrow">
-          <div className="num-time"><strong>CASJ {match.name}</strong><br />{matchTime}</div>
+          <div className="num-time"><strong>CASJ {match.name}</strong><br />{matchTimeStr}</div>
           <div className="alliances">
             <div className="red-alliance">{redAlliance}</div>
             <div className="blue-alliance">{blueAlliance}</div>

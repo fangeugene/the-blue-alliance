@@ -43,7 +43,7 @@ class LiveEventHandler(CacheableHandler):
                 'name': match.short_name,
                 'alliances': match.alliances,
                 'order': match.play_order,
-                'time_str': match.time_string,
+                'utc': match.time.isoformat() if match.time is not None else None,
             })
 
         event_dict = {
