@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}GameDay - The Blue Alliance{% endblock %}
+
+{% block meta_description %}Mobile version of the live competition page for the FIRST Robotics Competition.{% endblock %}
+
+{% block more_head_tags %}
+  <meta property="og:title" content="Gameday - Live FIRST Robotics Experience">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://www.thebluealliance.com/gameday">
+  <meta property="og:image" content="http://www.thebluealliance.com/images/first_logo.png">
+  <meta property="og:description" content="FIRST Robotics Competition events live!">
+  <meta property="og:site_name" content="The Blue Alliance">
+{% endblock %}
+
+{% block content %}
+<script src="http://fb.me/react-with-addons-0.8.0.js"></script>
+<script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+<script type="text/jsx" src="/javascript/tba_js/match-ticker.js"></script>
+<link rel="stylesheet" href="/css/match-ticker.css" type="text/css" />
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="match-ticker" data-event-key-name="2013casj" data-team-key-name="frc254"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block ganalytics_timer %}
+<script>
+(function (tos) {
+  window.setInterval(function () {
+    // Calculate time every 60,000 milliseconds (60 seconds)
+    tos = (function (t) {
+      return ((parseInt(t[1]) || 0) + 1) + ':00';
+    })(tos.split(':').reverse());
+    // Collect and send the time to Google Analytics
+    window.pageTracker ? pageTracker._trackEvent('gameday_time', 'Log', tos) : _gaq.push(['_trackEvent', 'gameday_time', 'Log', tos]);
+    }, 60000);
+  })('00');
+</script>
+{% endblock %}

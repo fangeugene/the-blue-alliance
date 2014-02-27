@@ -11,6 +11,7 @@ import tba_config
 
 from base_controller import CacheableHandler
 from helpers.event_helper import EventHelper
+from helpers.useragent_helper import UserAgentHelper
 
 from models.event import Event
 from models.insight import Insight
@@ -205,10 +206,19 @@ class GamedayHandler(CacheableHandler):
     def __init__(self, *args, **kw):
         super(CacheableHandler, self).__init__(*args, **kw)
         self._cache_expiration = 60 * 60 * 24 * 7
-        self._cache_key = "main_gameday"
+        self._cache_key = "main_gameday:{}"  # % (is_desktop)
         self._cache_version = 1
 
-    def _render(self, *args, **kw):
+    def get(self):
+        is_desktop = UserAgentHelper.is_desktop(self.request.headers['User-Agent'])
+        self._cache_key = self._cache_key.format(is_desktop)
+        super(GamedayHandler, self).get(is_desktop)
+
+    def _render(self, is_desktop):
+        if not is_desktop or True:
+            path = os.path.join(os.path.dirname(__file__), '../templates/gameday_mobile.html')
+            return template.render(path, {})
+
         special_webcasts_future = Sitevar.get_by_id_async('gameday.special_webcasts')
         special_webcasts_temp = special_webcasts_future.get_result()
         if special_webcasts_temp:

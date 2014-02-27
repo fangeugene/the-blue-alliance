@@ -1,0 +1,75 @@
+/* temp to make livedash development easier */
+.match-list {
+  //max-height: 500px;
+  //overflow-y: scroll;
+}
+
+.matchrow, #next-matchrow {
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.matchrow {
+  height: 40px;
+}
+
+#next-matchrow, .num-time {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+#next-matchrow, .red-score {
+  border-top-right-radius: 5px;
+}
+
+#next-matchrow, .blue-score {
+  border-bottom-right-radius: 5px;
+}
+
+#next-matchrow {
+  background: #FFCC00;
+}
+
+.num-time {
+  width: 35%;
+  float: left;
+  background: #dddddd;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.alliances {
+  width: 50%;
+  float: left;
+}
+
+.scores {
+  width: 15%;
+  float: left;
+}
+
+.red-alliance {
+  background: #ffeeee;
+}
+
+.blue-alliance {
+  background: #eeeeff;
+}
+
+.team {
+  width: 33%;
+  float: left;
+}
+
+.team-highlight {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.red-score {
+  background: #ffdddd;
+}
+
+.blue-score {
+  background: #ddddff;
+}
