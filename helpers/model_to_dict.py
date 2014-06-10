@@ -1,5 +1,6 @@
 import logging
 
+from consts.media_type import MediaType
 
 class ModelToDict(object):
 
@@ -43,6 +44,10 @@ class ModelToDict(object):
         event_dict["official"] = event.official
         event_dict["facebook_eid"] = event.facebook_eid
 
+        if event.alliance_selections:
+            event_dict["alliances"] = event.alliance_selections
+        else:
+            event_dict["alliances"] = []
         if event.start_date:
             event_dict["start_date"] = event.start_date.date().isoformat()
         else:
@@ -51,6 +56,11 @@ class ModelToDict(object):
             event_dict["end_date"] = event.end_date.date().isoformat()
         else:
             event_dict["end_date"] = None
+       
+        if event.webcast:
+            event_dict["webcast"] = event.webcast
+        else:
+            event_dict["webcast"] = dict()
 
         return event_dict
 
@@ -87,3 +97,18 @@ class ModelToDict(object):
         award_dict["recipient_list"] = award.recipient_list
 
         return award_dict
+
+    @classmethod
+    def mediaConverter(self, media):
+        """
+        return top level media dictionary
+        """
+        media_dict = dict()
+        media_dict["type"] = media.slug_name 
+        media_dict["foreign_key"] = media.foreign_key
+        if media.details is not None:
+            media_dict["details"] = media.details
+        else:
+            media_dict["details"] = {}
+
+        return media_dict
