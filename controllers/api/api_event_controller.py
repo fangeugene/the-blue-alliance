@@ -5,6 +5,8 @@ import webapp2
 from datetime import datetime
 from google.appengine.ext import ndb
 
+from api.v2.event_api import EventAPI
+
 from controllers.api.api_base_controller import ApiBaseController
 
 from helpers.award_helper import AwardHelper
@@ -28,9 +30,8 @@ class ApiEventController(ApiBaseController):
     def _validators(self):
         return [("event_id_validator", self.event_key)]
 
-    def _set_event(self, event_key):
-        self.event = Event.get_by_id(event_key)
-        if self.event is None:
+    def _check_event_exists(self, event_key):
+        if Event.get_by_id(event_key) is None:
             self._errors = json.dumps({"404": "%s event not found" % self.event_key})
             self.abort(404)
 
@@ -38,11 +39,8 @@ class ApiEventController(ApiBaseController):
         self._track_call_defer('event', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
-
-        event_dict = ModelToDict.eventConverter(self.event)
-
-        return json.dumps(event_dict, ensure_ascii=True)
+        self._check_event_exists(event_key)
+        return EventAPI.event(event_key)
 
 
 class ApiEventTeamsController(ApiEventController):
@@ -58,12 +56,8 @@ class ApiEventTeamsController(ApiEventController):
         self._track_call_defer('event/teams', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
-
-        teams = self.event.teams
-        team_dicts = [ModelToDict.teamConverter(team) for team in teams]
-
-        return json.dumps(team_dicts, ensure_ascii=True)
+        self._check_event_exists(event_key)
+        return EventAPI.event_teams(event_key)
 
 
 class ApiEventMatchesController(ApiEventController):
@@ -79,12 +73,8 @@ class ApiEventMatchesController(ApiEventController):
         self._track_call_defer('event/matches', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
-
-        matches = self.event.matches
-        match_dicts = [ModelToDict.matchConverter(match) for match in matches]
-
-        return json.dumps(match_dicts, ensure_ascii=True)
+        self._check_event_exists(event_key)
+        return EventAPI.event_matches(event_key)
 
 
 class ApiEventStatsController(ApiEventController):
@@ -100,9 +90,8 @@ class ApiEventStatsController(ApiEventController):
         self._track_call_defer('event/stats', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
-
-        return json.dumps(Event.get_by_id(event_key).matchstats)
+        self._check_event_exists(event_key)
+        return EventAPI.event_stats(event_key)
 
 
 class ApiEventRankingsController(ApiEventController):
@@ -118,13 +107,8 @@ class ApiEventRankingsController(ApiEventController):
         self._track_call_defer('event/rankings', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
-
-        ranks = json.dumps(Event.get_by_id(event_key).rankings)
-        if ranks is None or ranks == 'null':
-            return '[]'
-        else:
-            return ranks
+        self._check_event_exists(event_key)
+        return EventAPI.event_rankings(event_key)
 
 
 class ApiEventAwardsController(ApiEventController):
@@ -140,10 +124,9 @@ class ApiEventAwardsController(ApiEventController):
         self._track_call_defer('event/awards', event_key)
 
     def _render(self,event_key):
-        self._set_event(event_key)
+        self._check_event_exists(event_key)
+        return EventAPI.event_awards(event_key)
 
-        award_dicts = [ModelToDict.awardConverter(award) for award in AwardHelper.organizeAwards(self.event.awards)]
-        return json.dumps(award_dicts, ensure_ascii=True)
 
 class ApiEventDistrictPointsController(ApiEventController):
     CACHE_KEY_FORMAT = "apiv2_event_district_points_controller_{}"  # (event_key)
@@ -158,10 +141,9 @@ class ApiEventDistrictPointsController(ApiEventController):
         self._track_call_defer('event/district_points', event_key)
 
     def _render(self, event_key):
-        self._set_event(event_key)
+        self._check_event_exists(event_key)
+        return EventAPI.event_district_points(event_key)
 
-        points = DistrictHelper.calculate_event_points(self.event)
-        return json.dumps(points, ensure_ascii=True)
 
 class ApiEventListController(ApiBaseController):
     CACHE_KEY_FORMAT = "apiv2_event_list_controller_{}"  # (year)
@@ -185,9 +167,4 @@ class ApiEventListController(ApiBaseController):
             self._errors = json.dumps({"404": "No events found for %s" % self.year})
             self.abort(404)
 
-        keys = Event.query(Event.year == self.year).fetch(1000, keys_only=True)
-        events = ndb.get_multi(keys)
-
-        event_list = [ModelToDict.eventConverter(event) for event in events]
-
-        return json.dumps(event_list, ensure_ascii=True)
+        return EventAPI.event_list(self.year)
