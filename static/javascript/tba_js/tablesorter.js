@@ -22,4 +22,8 @@ $(document).ready(function(){
         sortList: [[0,0]],
         textExtraction:'complex'
     });
+    $("#power-ratings-table").tablesorter({
+        sortList: [[0,0]],
+        textExtraction:'complex'
+    });
 });

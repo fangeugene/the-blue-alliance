@@ -28,6 +28,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a href="#match-predictions" data-toggle="tab">Qual Match Predictions</a></li>
         <li><a href="#ranking-predictions" data-toggle="tab">Ranking Predictions</a></li>
+        <li><a href="#power-ratings" data-toggle="tab">Power Ratings</a></li>
       </ul>
     </div>
   </div>
@@ -113,6 +114,33 @@
         </div>
       </div>
       {% endif %}
+    </div>
+
+    <div class="tab-pane" id="power-ratings">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <table class="table table-striped table-condensed table-center tablesorter" id="power-ratings-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>OPR</th>
+                <th>DPR</th>
+                <th>CCWM</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for team, stats in power_ratings.items() %}
+              <tr>
+                <td><a href="/team/{{team}}/{{event.year}}">{{team}}</a></td>
+                <td>{{'%0.2f'| format(stats.oprs|float)}}</td>
+                <td>{{'%0.2f'| format(stats.dprs|float)}}</td>
+                <td>{{'%0.2f'| format(stats.ccwms|float)}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

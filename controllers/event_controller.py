@@ -16,6 +16,7 @@ from helpers.award_helper import AwardHelper
 from helpers.team_helper import TeamHelper
 from helpers.event_helper import EventHelper
 from helpers.event_insights_helper import EventInsightsHelper
+from helpers.matchstats_helper import MatchstatsHelper
 from helpers.media_helper import MediaHelper
 
 from models.event import Event
@@ -289,6 +290,8 @@ class EventInsights(CacheableHandler):
             if last_played_match_key:
                 last_played_match_num = last_played_match_key.split('_qm')[1]
 
+        power_ratings = MatchstatsHelper.group_stats_by_team(event.details.matchstats)
+
         self.template_values.update({
             "event": event,
             "matches": matches,
@@ -298,6 +301,7 @@ class EventInsights(CacheableHandler):
             "ranking_predictions": ranking_predictions,
             "ranking_prediction_stats": ranking_prediction_stats,
             "last_played_match_num": last_played_match_num,
+            "power_ratings": power_ratings,
         })
 
         if event.within_a_day:

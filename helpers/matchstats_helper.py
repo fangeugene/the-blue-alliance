@@ -20,6 +20,15 @@ from models.event_team import EventTeam
 
 class MatchstatsHelper(object):
     @classmethod
+    def group_stats_by_team(cls, stats):
+        stats_by_team = defaultdict(dict)
+        for stat_name, stats in stats.items():
+            for team, value in stats.items():
+                stats_by_team[team][stat_name] = value
+
+        return stats_by_team
+
+    @classmethod
     def build_team_mapping(cls, matches):
         """
         Returns (team_list, team_id_map)
