@@ -96,6 +96,45 @@ class MatchstatsHelper(object):
         return stat_dict
 
     @classmethod
+    def calc_simultaneous_stat(cls, matches, team_list, team_id_map):
+        # https://www.chiefdelphi.com/forums/showthread.php?t=137451
+        played_qual_matches = [m for m in matches if m.has_been_played and m.comp_level == 'qm']
+        num_teams = len(team_list)
+        num_matches = len(played_qual_matches)
+        teams_per_alliance = 3
+
+        Ar = np.zeros((num_matches, num_teams))
+        Ab = np.zeros((num_matches, num_teams))
+        Mr = np.zeros((num_matches, 1))
+        Mb = np.zeros((num_matches, 1))
+        for i, match in enumerate(played_qual_matches):
+            if match.has_been_played and match.comp_level == 'qm':
+                for team in match.alliances['red']['teams']:
+                    Ar[i, team_id_map[team[3:]]] = 1
+                Mr[i] = match.alliances['red']['score']
+                for team in match.alliances['blue']['teams']:
+                    Ab[i, team_id_map[team[3:]]] = 1
+                Mb[i] = match.alliances['blue']['score']
+
+        Ao = np.vstack((Ar, Ab))
+        Ad = np.vstack((Ab, Ar))
+        As = np.hstack((Ao, Ad))
+        Mo = np.vstack((Mr, Mb))
+        Oave = np.mean(Mo) / teams_per_alliance
+
+        sODPR = np.dot(np.linalg.pinv(As), Mo) + Oave / 2
+        sOPR = sODPR[:num_teams]
+        sDPR = sODPR[num_teams:2*num_teams]
+
+        sOPR_dict = {}
+        for team, stat in zip(team_list, sOPR):
+            sOPR_dict[team] = stat[0]
+        sDPR_dict = {}
+        for team, stat in zip(team_list, sDPR):
+            sDPR_dict[team] = stat[0]
+        return sOPR_dict, sDPR_dict
+
+    @classmethod
     def _get_stat(cls, stat_type, match, alliance_color, alliance_teams, init_stats, init_stats_default, treat_as_unplayed):
         match_played = match.has_been_played and not treat_as_unplayed
 
@@ -153,7 +192,6 @@ class MatchstatsHelper(object):
         team_list, team_id_map = cls.build_team_mapping(matches)
         if not team_list:
             return {}
-        last_event_stats = cls.get_last_event_stats(team_list, matches[0].event)
 
         Minv = cls.build_Minv_matrix(matches, team_id_map, played_only=True)
 
@@ -161,7 +199,9 @@ class MatchstatsHelper(object):
         dprs_dict = cls.calc_stat(matches, team_list, team_id_map, Minv, 'dprs')
         ccwms_dict = cls.calc_stat(matches, team_list, team_id_map, Minv, 'ccwms')
 
-        stats = {'oprs': oprs_dict, 'dprs': dprs_dict, 'ccwms': ccwms_dict}
+        sopr_dict, sdpr_dict = cls.calc_simultaneous_stat(matches, team_list, team_id_map)
+
+        stats = {'oprs': oprs_dict, 'dprs': dprs_dict, 'ccwms': ccwms_dict, 'sopr': sopr_dict, 'sdpr': sdpr_dict}
 
         if year == 2016:
             # First ranking tiebreaker

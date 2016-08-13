@@ -124,7 +124,9 @@
               <tr>
                 <th>Team</th>
                 <th>OPR</th>
+                <th>sOPR</th>
                 <th>DPR</th>
+                <th>sDPR</th>
                 <th>CCWM</th>
               </tr>
             </thead>
@@ -132,9 +134,31 @@
               {% for team, stats in power_ratings.items() %}
               <tr>
                 <td><a href="/team/{{team}}/{{event.year}}">{{team}}</a></td>
-                <td>{{'%0.2f'| format(stats.oprs|float)}}</td>
-                <td>{{'%0.2f'| format(stats.dprs|float)}}</td>
-                <td>{{'%0.2f'| format(stats.ccwms|float)}}</td>
+                <td>{% if stats.oprs %}
+                  {{'%0.2f'| format(stats.oprs|float)}}
+                {% else %}
+                  --
+                {% endif %}</td>
+                <td>{% if stats.sopr %}
+                  {{'%0.2f'| format(stats.sopr|float)}}
+                {% else %}
+                --
+                {% endif %}</td>
+                <td>{% if stats.dprs %}
+                  {{'%0.2f'| format(stats.dprs|float)}}
+                {% else %}
+                --
+                {% endif %}</td>
+                <td>{% if stats.sdpr %}
+                  {{'%0.2f'| format(stats.sdpr|float)}}
+                {% else %}
+                --
+                {% endif %}</td>
+                <td>{% if stats.ccwms %}
+                  {{'%0.2f'| format(stats.ccwms|float)}}
+                {% else %}
+                --
+                {% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
